@@ -5,7 +5,6 @@ import { Category, Product, Restaurant } from "@prisma/client";
 
 import { AddressDialog } from "@/components/dialog/address-dialog";
 import { ReviewsDialog } from "@/components/dialog/rating-dialog";
-import { Separator } from "@/components/ui/separator";
 
 interface Props {
   restaurant: Restaurant;
@@ -43,22 +42,20 @@ export function RestaurantHeader({ restaurant, categories, products }: Props) {
       </h1>
 
       <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-        <div className="flex items-center gap-2">
-          {categories?.map((category) => (
-            <span
-              key={category.id}
-              className="text-xs text-muted-foreground border rounded-md px-2 py-1"
-            >
-              {category.name}
-            </span>
-          ))}
-        </div>
-
-        <Separator orientation="vertical" className="h-4" />
+        {categories && categories.length > 0 && (
+          <div className="flex items-center gap-2">
+            {categories.map((category) => (
+              <span
+                key={category.id}
+                className="text-xs text-muted-foreground border rounded-md px-2 py-1"
+              >
+                {category.name}
+              </span>
+            ))}
+          </div>
+        )}
 
         <ReviewsDialog slug={restaurant.slug} />
-
-        <Separator orientation="vertical" className="h-4" />
 
         <p className="text-emerald-600">{formatAveragePrice(products)}</p>
       </div>

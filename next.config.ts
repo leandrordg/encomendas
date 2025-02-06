@@ -5,23 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "placehold.co",
-      },
-      {
-        protocol: "https",
-        hostname: "p2.trrsf.com",
-      },
-      {
-        protocol: "https",
-        hostname: "static.itdg.com.br",
-      },
-      {
-        protocol: "https",
-        hostname: "blog.gen.com.br",
-      },
-      {
-        protocol: "https",
-        hostname: "blog.zanottirefrigeracao.com.br",
+        hostname: "utfs.io",
       },
     ],
   },

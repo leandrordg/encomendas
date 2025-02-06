@@ -73,3 +73,20 @@ export const getRestaurantsByCategory = async (slug: string) => {
     latestRestaurants: latestRestaurants,
   };
 };
+
+export const getRestaurantsByUser = async (userId: string) => {
+  const restaurants = await prisma.restaurant.findMany({
+    where: {
+      ownerId: userId,
+    },
+    include: {
+      categories: true,
+      products: true,
+      reviews: true,
+    },
+  });
+
+  return {
+    restaurants,
+  };
+};

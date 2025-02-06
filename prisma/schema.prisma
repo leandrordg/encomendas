@@ -16,6 +16,8 @@ model Restaurant {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
+  ownerId      String
+  owner        User          @relation(fields: [ownerId], references: [userId])
   phoneNumbers PhoneNumber[]
   addresses    Address[]
   categories   Category[]
@@ -44,7 +46,7 @@ model PhoneNumber {
   updatedAt DateTime @updatedAt
 
   customerId String?
-  customer   Customer? @relation(fields: [customerId], references: [userId], onDelete: Cascade)
+  customer   User?   @relation(fields: [customerId], references: [userId], onDelete: Cascade)
 
   restaurantId String?
   restaurant   Restaurant? @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
@@ -80,7 +82,7 @@ model Product {
   reviews    Review[]
 }
 
-model Customer {
+model User {
   id        String   @id @default(cuid())
   userId    String   @unique
   firstName String
@@ -93,6 +95,7 @@ model Customer {
 
   reviews      Review[]
   phoneNumbers PhoneNumber[]
+  restaurants  Restaurant[]
 }
 
 model Review {
@@ -103,7 +106,7 @@ model Review {
   updatedAt DateTime @updatedAt
 
   customerId String
-  customer   Customer @relation(fields: [customerId], references: [userId], onDelete: Cascade)
+  customer   User   @relation(fields: [customerId], references: [userId], onDelete: Cascade)
 
   productId    String?
   restaurantId String?

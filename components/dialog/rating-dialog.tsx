@@ -15,13 +15,18 @@ import { Separator } from "@/components/ui/separator";
 export async function ReviewsDialog({ slug }: { slug: string }) {
   const reviews = await getReviewsByRestaurant(slug);
 
+  // TODO: change this to a render other component
+  if (!reviews.length) return null;
+
   return (
     <Dialog>
       <DialogTrigger asChild>
+        <Separator orientation="vertical" className="h-4" />
         <div className="flex items-center gap-2 cursor-default hover:text-primary transition-all">
           <StarIcon className="size-4 shrink-0" />
           {formatReviews(reviews)}
         </div>
+        <Separator orientation="vertical" className="h-4" />
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

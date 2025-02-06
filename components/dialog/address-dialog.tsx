@@ -15,6 +15,9 @@ import {
 export async function AddressDialog({ slug }: { slug: string }) {
   const addresses = await getAddressesByRestaurant(slug);
 
+  // TODO: change this to a render other component
+  if (!addresses.length) return null;
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -28,7 +31,7 @@ export async function AddressDialog({ slug }: { slug: string }) {
           <DialogTitle>
             <div className="flex items-center gap-2">
               <MapPinIcon className="size-4 shrink-0" />
-              Endereços de {addresses[0].restaurant.name}
+              Endereços de {addresses[0]?.restaurant.name}
             </div>
           </DialogTitle>
           <DialogDescription>
