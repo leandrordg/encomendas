@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { getProductBySlug } from "@/hooks/products";
 import { formatPrice, formatReviews } from "@/lib/utils";
 import { ShoppingBasketIcon, StarIcon } from "lucide-react";
+
 import { Button } from "@/components/ui/button";
 
 interface Props {

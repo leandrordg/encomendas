@@ -1,24 +1,19 @@
 import Image from "next/image";
 
-import { formatAveragePrice, formatReviews } from "@/lib/utils";
-import { Category, Product, Restaurant, Review } from "@prisma/client";
-import { MapPinIcon, PhoneIcon, StarIcon } from "lucide-react";
+import { formatAveragePrice } from "@/lib/utils";
+import { Category, Product, Restaurant } from "@prisma/client";
 
+import { AddressDialog } from "@/components/dialog/address-dialog";
+import { ReviewsDialog } from "@/components/dialog/rating-dialog";
 import { Separator } from "@/components/ui/separator";
 
 interface Props {
   restaurant: Restaurant;
   categories?: Category[];
   products?: Product[];
-  reviews?: Review[];
 }
 
-export function RestaurantHeader({
-  restaurant,
-  categories,
-  products,
-  reviews,
-}: Props) {
+export function RestaurantHeader({ restaurant, categories, products }: Props) {
   return (
     <section className="max-w-5xl mx-auto p-4 space-y-4">
       <p className="text-sm uppercase font-semibold tracking-wider">
@@ -61,10 +56,7 @@ export function RestaurantHeader({
 
         <Separator orientation="vertical" className="h-4" />
 
-        <div className="flex items-center gap-2">
-          <StarIcon className="size-4 shrink-0" />
-          {formatReviews(reviews)}
-        </div>
+        <ReviewsDialog slug={restaurant.slug} />
 
         <Separator orientation="vertical" className="h-4" />
 
@@ -76,14 +68,7 @@ export function RestaurantHeader({
       </p>
 
       <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
-        <div className="flex items-center gap-2 rounded-md border px-2 py-1">
-          <MapPinIcon className="size-4 shrink-0" />
-          Sem localização.
-        </div>
-        <div className="flex items-center gap-2 rounded-md border px-2 py-1">
-          <PhoneIcon className="size-4 shrink-0" />
-          Sem telefone adicionado.
-        </div>
+        <AddressDialog slug={restaurant.slug} />
       </div>
     </section>
   );

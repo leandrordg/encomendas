@@ -25,14 +25,14 @@ export const getRestaurantBySlug = async (slug: string) => {
     },
     include: {
       categories: true,
-      reviews: true,
+      products: true,
     },
   });
 
   return {
     restaurant,
     categories: restaurant?.categories,
-    reviews: restaurant?.reviews,
+    products: restaurant?.products,
   };
 };
 

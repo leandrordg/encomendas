@@ -10,21 +10,53 @@ datasource db {
 model Restaurant {
   id          String   @id @default(cuid())
   name        String
-  slug        String?  @unique
+  slug        String   @unique
   description String
   imageUrl    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  categories Category[]
-  reviews    Review[]
-  products   Product[]
+  phoneNumbers PhoneNumber[]
+  addresses    Address[]
+  categories   Category[]
+  reviews      Review[]
+  products     Product[]
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  street    String
+  city      String
+  state     String
+  zipCode   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  restaurantId String
+  restaurant   Restaurant   @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  phoneNumber  PhoneNumber?
+}
+
+model PhoneNumber {
+  id        String   @id @default(cuid())
+  number    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [userId], onDelete: Cascade)
+
+  restaurantId String?
+  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+
+  addressId String?  @unique
+  address   Address? @relation(fields: [addressId], references: [id], onDelete: Cascade)
 }
 
 model Category {
   id          String   @id @default(cuid())
   name        String
-  slug        String?  @unique
+  slug        String   @unique
   description String?
   imageUrl    String
   createdAt   DateTime @default(now())
@@ -36,8 +68,8 @@ model Category {
 model Product {
   id           String   @id @default(cuid())
   name         String
-  description  String
-  slug         String?  @unique
+  description  String?
+  slug         String   @unique
   price        Float
   imageUrl     String?
   restaurantId String
@@ -49,29 +81,29 @@ model Product {
 }
 
 model Customer {
-  id          String   @id @default(cuid())
-  userId      String   @unique
-  firstName   String
-  lastName    String?
-  email       String   @unique
-  phoneNumber String?
-  address     String?
-  imageUrl    String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  firstName String
+  lastName  String?
+  email     String   @unique
+  address   String?
+  imageUrl  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  reviews Review[]
+  reviews      Review[]
+  phoneNumbers PhoneNumber[]
 }
 
 model Review {
-  id         String   @id @default(cuid())
-  rating     Int
-  comment    String?
-  customerId String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id        String   @id @default(cuid())
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  customer Customer @relation(fields: [customerId], references: [userId], onDelete: Cascade)
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [userId], onDelete: Cascade)
 
   productId    String?
   restaurantId String?

@@ -13,7 +13,7 @@ interface Props {
 export default async function IndividualRestaurant({ params }: Props) {
   const { slug } = await params;
 
-  const { restaurant, categories, reviews } = await getRestaurantBySlug(slug);
+  const { restaurant, categories, products } = await getRestaurantBySlug(slug);
 
   if (!restaurant) return notFound();
 
@@ -22,7 +22,7 @@ export default async function IndividualRestaurant({ params }: Props) {
       <RestaurantHeader
         restaurant={restaurant}
         categories={categories}
-        reviews={reviews}
+        products={products}
       />
 
       <Separator orientation="horizontal" className="h-[2px]" />
