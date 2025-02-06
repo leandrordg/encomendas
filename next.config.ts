@@ -19,6 +19,10 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "blog.gen.com.br",
       },
+      {
+        protocol: "https",
+        hostname: "blog.zanottirefrigeracao.com.br",
+      },
     ],
   },
 };

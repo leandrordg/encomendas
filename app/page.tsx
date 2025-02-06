@@ -50,6 +50,7 @@ export default async function Home() {
                   restaurant={restaurant}
                   categories={restaurant.categories}
                   products={restaurant.products}
+                  reviews={restaurant.reviews}
                 />
               ))}
             </div>

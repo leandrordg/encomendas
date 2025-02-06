@@ -16,7 +16,8 @@ model Restaurant {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  categories Category[] @relation("RestaurantCategories")
+  categories Category[]
+  reviews    Review[]
   products   Product[]
 }
 
@@ -29,7 +30,7 @@ model Category {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  restaurants Restaurant[] @relation("RestaurantCategories")
+  restaurants Restaurant[]
 }
 
 model Product {
@@ -44,4 +45,40 @@ model Product {
   updatedAt    DateTime @updatedAt
 
   restaurant Restaurant @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  reviews    Review[]
+}
+
+model Customer {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  firstName   String
+  lastName    String?
+  email       String   @unique
+  phoneNumber String?
+  address     String?
+  imageUrl    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  reviews Review[]
+}
+
+model Review {
+  id         String   @id @default(cuid())
+  rating     Int
+  comment    String?
+  customerId String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  customer Customer @relation(fields: [customerId], references: [userId], onDelete: Cascade)
+
+  productId    String?
+  restaurantId String?
+
+  product    Product?    @relation(fields: [productId], references: [id], onDelete: Cascade)
+  restaurant Restaurant? @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
+  @@index([restaurantId])
 }

@@ -1,24 +1,31 @@
 import Image from "next/image";
 
-import { Category, Product, Restaurant } from "@prisma/client";
-import { MapPinIcon, PhoneIcon, TruckIcon } from "lucide-react";
+import { formatAveragePrice, formatReviews } from "@/lib/utils";
+import { Category, Product, Restaurant, Review } from "@prisma/client";
+import { MapPinIcon, PhoneIcon, StarIcon } from "lucide-react";
+
+import { Separator } from "@/components/ui/separator";
 
 interface Props {
-  restaurant: Restaurant | null;
+  restaurant: Restaurant;
   categories?: Category[];
   products?: Product[];
+  reviews?: Review[];
 }
 
-export function RestaurantHeader({ restaurant, categories }: Props) {
-  if (!restaurant) return null;
-
+export function RestaurantHeader({
+  restaurant,
+  categories,
+  products,
+  reviews,
+}: Props) {
   return (
     <section className="max-w-5xl mx-auto p-4 space-y-4">
       <p className="text-sm uppercase font-semibold tracking-wider">
         Restaurantes
       </p>
 
-      <div className="relative w-full h-36 sm:h-44 md:h-52 bg-gray-200 rounded-lg overflow-hidden">
+      <div className="relative w-full h-36 sm:h-44 md:h-52 bg-muted rounded-md overflow-clip shadow-sm">
         {restaurant.imageUrl ? (
           <Image
             src={restaurant.imageUrl}
@@ -40,8 +47,8 @@ export function RestaurantHeader({ restaurant, categories }: Props) {
         {restaurant.name}
       </h1>
 
-      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-        <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+        <div className="flex items-center gap-2">
           {categories?.map((category) => (
             <span
               key={category.id}
@@ -52,38 +59,30 @@ export function RestaurantHeader({ restaurant, categories }: Props) {
           ))}
         </div>
 
-        {/* <div className="flex items-center gap-2">
-      {restaurant.rating} <StarIcon className="size-4 shrink-0" />(
-      {restaurant.reviews} avaliações)
-    </div> */}
+        <Separator orientation="vertical" className="h-4" />
 
-        <div className="flex items-center gap-1">
-          <TruckIcon className="size-4 shrink-0" />
-          {/* {restaurant.deliveryTime} min aprox. */}
+        <div className="flex items-center gap-2">
+          <StarIcon className="size-4 shrink-0" />
+          {formatReviews(reviews)}
         </div>
 
-        <p className="text-emerald-600">
-          {/* {formatAveragePrice(restaurant.averagePrice)} */}
-        </p>
+        <Separator orientation="vertical" className="h-4" />
 
-        <div className="flex items-center gap-1">
-          <span>Taxa de entrega:</span>
-          {/* {formatPrice(restaurant.deliveryFee)} */}
-        </div>
+        <p className="text-emerald-600">{formatAveragePrice(products)}</p>
       </div>
 
-      <p className="text-muted-foreground leading-relaxed mt-6 line-clamp-2">
+      <p className="text-sm sm:text-base text-muted-foreground leading-relaxed mt-6">
         {restaurant.description}
       </p>
 
-      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+      <div className="flex flex-wrap items-center gap-4 text-xs text-muted-foreground">
         <div className="flex items-center gap-2 rounded-md border px-2 py-1">
           <MapPinIcon className="size-4 shrink-0" />
-          {/* {restaurant.address} */}
+          Sem localização.
         </div>
         <div className="flex items-center gap-2 rounded-md border px-2 py-1">
           <PhoneIcon className="size-4 shrink-0" />
-          {/* {restaurant.phone} */}
+          Sem telefone adicionado.
         </div>
       </div>
     </section>

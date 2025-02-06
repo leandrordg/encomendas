@@ -1,15 +1,25 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Category, Product, Restaurant } from "@prisma/client";
+import { formatAveragePrice, formatReviews } from "@/lib/utils";
+import { Category, Product, Restaurant, Review } from "@prisma/client";
+import { StarIcon } from "lucide-react";
+
+import { Separator } from "@/components/ui/separator";
 
 interface Props {
   restaurant: Restaurant;
   categories?: Category[];
   products?: Product[];
+  reviews?: Review[];
 }
 
-export function RestaurantCard({ restaurant, categories }: Props) {
+export function RestaurantCard({
+  restaurant,
+  categories,
+  products,
+  reviews,
+}: Props) {
   return (
     <Link href={`/restaurantes/${restaurant.slug}`}>
       <div className="flex flex-col md:flex-row md:items-center md:gap-4 hover:shadow-md transition-all rounded-md overflow-clip border">
@@ -31,20 +41,28 @@ export function RestaurantCard({ restaurant, categories }: Props) {
           />
         )}
         <div className="flex flex-col flex-1 p-4 md:p-0">
-          <h4 className="sm:text-lg font-medium tracking-tighter transition-all">
-            {restaurant.name}
-          </h4>
-
           {categories && (
             <p className="text-xs text-muted-foreground">
               {categories.map((category) => category.name).join(", ")}
             </p>
           )}
 
-          {/* <p className="text-sm text-muted-foreground">
-            {restaurant.rating} ★ | {restaurant.deliveryTime} min.{" "}
-            {formatAveragePrice(restaurant.averagePrice)}
-          </p> */}
+          <h4 className="sm:text-lg font-medium tracking-tighter transition-all">
+            {restaurant.name}
+          </h4>
+
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 text-xs text-muted-foreground">
+              <StarIcon className="size-3 shrink-0" />
+              {formatReviews(reviews)}
+            </div>
+
+            <Separator orientation="vertical" className="h-4" />
+
+            <div className="flex items-center gap-1 text-xs text-emerald-600">
+              {formatAveragePrice(products)}
+            </div>
+          </div>
         </div>
       </div>
     </Link>

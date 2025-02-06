@@ -5,6 +5,7 @@ export const getRestaurants = async () => {
     include: {
       categories: true,
       products: true,
+      reviews: true,
     },
   });
 
@@ -17,25 +18,22 @@ export const getRestaurants = async () => {
   };
 };
 
-export const getPopularRestaurants = async () => {
-  return await prisma.restaurant.findMany({
-    include: {
-      categories: true,
-      products: true,
-    },
-  });
-};
-
 export const getRestaurantBySlug = async (slug: string) => {
-  return await prisma.restaurant.findUnique({
+  const restaurant = await prisma.restaurant.findUnique({
     where: {
       slug,
     },
     include: {
       categories: true,
-      products: true,
+      reviews: true,
     },
   });
+
+  return {
+    restaurant,
+    categories: restaurant?.categories,
+    reviews: restaurant?.reviews,
+  };
 };
 
 export const getRestaurantsByCategory = async (slug: string) => {
@@ -62,6 +60,7 @@ export const getRestaurantsByCategory = async (slug: string) => {
     include: {
       categories: true,
       products: true,
+      reviews: true,
     },
   });
 

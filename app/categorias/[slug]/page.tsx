@@ -44,25 +44,7 @@ export default async function IndividualCategory({ params }: Props) {
         {latestRestaurants.length > 0 && (
           <div className="mt-14">
             <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-balance">
-              Mais bem avaliados
-            </h2>
-            <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-              {latestRestaurants.map((restaurant) => (
-                <RestaurantCard
-                  key={restaurant.id}
-                  restaurant={restaurant}
-                  categories={restaurant.categories}
-                  products={restaurant.products}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {latestRestaurants.length > 0 && (
-          <div className="mt-14">
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-balance">
-              Mais bem avaliados
+              Restaurantes mais recentes
             </h2>
             <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
               {latestRestaurants.map((restaurant) => (

@@ -2,7 +2,9 @@ import { notFound } from "next/navigation";
 
 import { getRestaurantBySlug } from "@/hooks/restaurants";
 
+import { Separator } from "@/components/ui/separator";
 import { RestaurantHeader } from "./restaurant-header";
+import { RestaurantProductList } from "./restaurant-product-list";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -11,7 +13,7 @@ interface Props {
 export default async function IndividualRestaurant({ params }: Props) {
   const { slug } = await params;
 
-  const restaurant = await getRestaurantBySlug(slug);
+  const { restaurant, categories, reviews } = await getRestaurantBySlug(slug);
 
   if (!restaurant) return notFound();
 
@@ -19,9 +21,13 @@ export default async function IndividualRestaurant({ params }: Props) {
     <main className="py-10 md:py-14 lg:py-20 space-y-8">
       <RestaurantHeader
         restaurant={restaurant}
-        categories={restaurant.categories}
-        products={restaurant.products}
+        categories={categories}
+        reviews={reviews}
       />
+
+      <Separator orientation="horizontal" className="h-[2px]" />
+
+      <RestaurantProductList restaurant={restaurant} categories={categories} />
     </main>
   );
 }

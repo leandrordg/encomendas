@@ -33,6 +33,7 @@ export default async function Explore() {
                   restaurant={restaurant}
                   categories={restaurant.categories}
                   products={restaurant.products}
+                  reviews={restaurant.reviews}
                 />
               ))}
             </div>
