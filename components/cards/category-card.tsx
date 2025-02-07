@@ -3,6 +3,8 @@ import Link from "next/link";
 
 import { Category } from "@prisma/client";
 
+import { CategoryDropdown } from "@/components/dropdowns/category-dropdown";
+
 interface Props {
   type?: "default" | "manage" | "admin";
   category: Category;
@@ -37,6 +39,12 @@ export function CategoryCard({ type = "default", category }: Props) {
         <span className="absolute inset-0 p-4 flex text-white text-xl font-bold tracking-tight bg-gradient-to-r from-neutral-700 to-transparent bg-opacity-30 transition-all group-hover:backdrop-blur-[2px]">
           {category.name}
         </span>
+
+        {(type === "manage" || type === "admin") && (
+          <div className="absolute inset-0 flex items-end p-4 bg-gradient-to-t from-neutral-700 to-transparent bg-opacity-30">
+            <CategoryDropdown category={category} isAdmin={type === "admin"} />
+          </div>
+        )}
       </div>
     </Link>
   );

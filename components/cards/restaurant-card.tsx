@@ -5,6 +5,7 @@ import { formatAveragePrice, formatReviews } from "@/lib/utils";
 import { Category, Product, Restaurant, Review } from "@prisma/client";
 import { StarIcon } from "lucide-react";
 
+import { RestaurantDropdown } from "@/components/dropdowns/restaurant-dropdown";
 import { Separator } from "@/components/ui/separator";
 
 interface Props {
@@ -30,7 +31,7 @@ export function RestaurantCard({
 
   return (
     <Link href={path}>
-      <div className="flex flex-col md:flex-row md:items-center md:gap-4 hover:shadow-md transition-all rounded-md overflow-clip border">
+      <div className="flex flex-col md:flex-row md:items-center hover:shadow-md transition-all rounded-md overflow-clip border">
         {restaurant.imageUrl ? (
           <Image
             src={restaurant.imageUrl}
@@ -48,7 +49,7 @@ export function RestaurantCard({
             className="w-full md:size-24 object-cover bg-muted"
           />
         )}
-        <div className="flex flex-col flex-1 p-4 md:p-0">
+        <div className="flex flex-col flex-1 p-4">
           {categories && (
             <p className="text-xs text-muted-foreground">
               {categories.map((category) => category.name).join(", ")}
@@ -72,6 +73,15 @@ export function RestaurantCard({
             </div>
           </div>
         </div>
+
+        {(type === "manage" || type === "admin") && (
+          <div className="flex items-center justify-center p-4">
+            <RestaurantDropdown
+              restaurant={restaurant}
+              isAdmin={type === "admin"}
+            />
+          </div>
+        )}
       </div>
     </Link>
   );

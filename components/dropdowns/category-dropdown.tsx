@@ -35,11 +35,11 @@ export function CategoryDropdown({ isAdmin = false, category }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger onClick={(e) => e.stopPropagation()} asChild>
-        <Button variant="ghost" size="icon" className="shrink-0">
+        <Button variant="secondary" size="icon" className="shrink-0">
           <EllipsisIcon />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent side="bottom" align="end" asChild>
+      <DropdownMenuContent side="bottom" align="start" asChild>
         <div>
           <DropdownMenuLabel>Configurações</DropdownMenuLabel>
           <DropdownMenuSeparator />

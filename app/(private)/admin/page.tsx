@@ -1,11 +1,11 @@
 import { getCategories } from "@/hooks/categories";
 import { getRestaurants } from "@/hooks/restaurants";
 import { getUsers } from "@/hooks/users";
-import { InfoIcon } from "lucide-react";
 
 import { CategoryCard } from "@/components/cards/category-card";
 import { RestaurantCard } from "@/components/cards/restaurant-card";
 import { UserCard } from "@/components/cards/user-card";
+import { InfoBanner } from "@/components/info-banner";
 
 export default async function Admin() {
   const { latestCategories } = await getCategories();
@@ -47,10 +47,7 @@ export default async function Admin() {
             </div>
           </div>
         ) : (
-          <div className="flex sm:items-center gap-4 p-6 border rounded-md mt-14 text-sm text-muted-foreground">
-            <InfoIcon className="size-4 shrink-0" />
-            Não encontramos restaurantes nesta categoria.
-          </div>
+          <InfoBanner>Não encontramos restaurantes nesta categoria.</InfoBanner>
         )}
 
         {latestRestaurants.length > 0 ? (
@@ -73,10 +70,7 @@ export default async function Admin() {
             </div>
           </div>
         ) : (
-          <div className="flex sm:items-center gap-4 p-6 border rounded-md mt-14 text-sm text-muted-foreground">
-            <InfoIcon className="size-4 shrink-0" />
-            Não encontramos restaurantes nesta categoria.
-          </div>
+          <InfoBanner>Não encontramos restaurantes nesta categoria.</InfoBanner>
         )}
 
         {latestUsers.length > 0 ? (
@@ -92,10 +86,7 @@ export default async function Admin() {
             </div>
           </div>
         ) : (
-          <div className="flex sm:items-center gap-4 p-6 border rounded-md mt-14 text-sm text-muted-foreground">
-            <InfoIcon className="size-4 shrink-0" />
-            Não encontramos restaurantes nesta categoria.
-          </div>
+          <InfoBanner>Não encontramos restaurantes nesta categoria.</InfoBanner>
         )}
       </section>
     </main>

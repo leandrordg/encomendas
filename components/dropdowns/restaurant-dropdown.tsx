@@ -35,8 +35,9 @@ export function RestaurantDropdown({ isAdmin = false, restaurant }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger onClick={(e) => e.stopPropagation()} asChild>
-        <Button variant="ghost" size="icon" className="shrink-0">
-          <EllipsisIcon />
+        <Button variant="outline" className="w-full md:size-8">
+          <EllipsisIcon className="hidden md:block"/>
+          <span className="md:hidden text-xs">Mais opções</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent side="bottom" align="end">

@@ -1,9 +1,10 @@
 import Link from "next/link";
 
 import { getRestaurantsByUser } from "@/hooks/restaurants";
-import { InfoIcon, MapPinPlusInsideIcon } from "lucide-react";
+import { MapPinPlusInsideIcon } from "lucide-react";
 
 import { RestaurantCard } from "@/components/cards/restaurant-card";
+import { InfoBanner } from "@/components/info-banner";
 import { Button } from "@/components/ui/button";
 
 export default async function Manage() {
@@ -31,10 +32,7 @@ export default async function Manage() {
 
       <section className="max-w-5xl mx-auto p-4 space-y-8">
         {restaurants.length === 0 && (
-          <div className="flex sm:items-center gap-4 p-6 border rounded-md text-sm text-muted-foreground">
-            <InfoIcon className="size-4 shrink-0" />
-            Não encontramos restaurantes nesta categoria.
-          </div>
+          <InfoBanner>Não encontramos restaurantes nesta categoria.</InfoBanner>
         )}
 
         {restaurants.length > 0 && (
@@ -87,10 +85,7 @@ export default async function Manage() {
               ))}
             </div>
           ) : (
-            <div className="flex sm:items-center gap-4 p-6 border rounded-md text-sm text-muted-foreground mt-6">
-              <InfoIcon className="size-4 shrink-0" />
-              Não encontramos nenhum pedido para você.
-            </div>
+            <InfoBanner>Não encontramos nenhum pedido para você.</InfoBanner>
           )}
         </div>
       </section>

@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation";
 
 import { getRestaurantsByCategory } from "@/hooks/restaurants";
-import { InfoIcon } from "lucide-react";
 
 import { RestaurantCard } from "@/components/cards/restaurant-card";
+import { InfoBanner } from "@/components/info-banner";
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -35,10 +35,7 @@ export default async function IndividualCategory({ params }: Props) {
         </p>
 
         {emptyCategory && (
-          <div className="flex sm:items-center gap-4 p-6 border rounded-md mt-14 text-sm text-muted-foreground">
-            <InfoIcon className="size-4 shrink-0" />
-            Não encontramos restaurantes nesta categoria.
-          </div>
+          <InfoBanner>Não encontramos restaurantes nesta categoria.</InfoBanner>
         )}
 
         {latestRestaurants.length > 0 && (
