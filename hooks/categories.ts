@@ -29,3 +29,11 @@ export const getPopularCategories = async () => {
     },
   });
 };
+
+export const getCategoryBySlug = async (slug: string) => {
+  return await prisma.category.findUnique({
+    where: {
+      slug,
+    },
+  });
+};

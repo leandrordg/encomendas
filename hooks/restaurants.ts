@@ -37,6 +37,29 @@ export const getRestaurantBySlug = async (slug: string) => {
   };
 };
 
+export const getUserRestaurantBySlug = async (slug: string) => {
+  const { userId } = await auth();
+
+  if (!userId) throw new Error("Usuário não autenticado.");
+
+  const restaurant = await prisma.restaurant.findFirst({
+    where: {
+      slug,
+      ownerId: userId,
+    },
+    include: {
+      categories: true,
+      products: true,
+    },
+  });
+
+  return {
+    restaurant,
+    categories: restaurant?.categories,
+    products: restaurant?.products,
+  };
+};
+
 export const getRestaurantsByCategory = async (slug: string) => {
   const hasCategory = await prisma.category.findUnique({
     where: {

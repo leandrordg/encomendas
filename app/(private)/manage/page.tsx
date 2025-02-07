@@ -10,9 +10,6 @@ import { Button } from "@/components/ui/button";
 export default async function Manage() {
   const { restaurants } = await getRestaurantsByUser();
 
-  // TODO: get orders by user
-  const { orders } = { orders: [] };
-
   return (
     <main className="py-10 md:py-14 lg:py-20 space-y-8">
       <section className="max-w-5xl mx-auto p-4">
@@ -31,16 +28,12 @@ export default async function Manage() {
       </section>
 
       <section className="max-w-5xl mx-auto p-4 space-y-8">
-        {restaurants.length === 0 && (
-          <InfoBanner>Não encontramos restaurantes nesta categoria.</InfoBanner>
-        )}
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-balance">
+            Meus restaurantes
+          </h2>
 
-        {restaurants.length > 0 && (
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-balance">
-              Meus restaurantes
-            </h2>
-
+          {restaurants.length > 0 ? (
             <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 mt-6">
               {restaurants.map((restaurant) => (
                 <RestaurantCard
@@ -53,8 +46,12 @@ export default async function Manage() {
                 />
               ))}
             </div>
-          </div>
-        )}
+          ) : (
+            <InfoBanner>
+              Não encontramos restaurantes cadastrados para você.
+            </InfoBanner>
+          )}
+        </div>
 
         <Button asChild>
           <Link href="/manage/create">
@@ -62,32 +59,6 @@ export default async function Manage() {
             Adicionar restaurante
           </Link>
         </Button>
-      </section>
-
-      <section className="max-w-5xl mx-auto p-4 space-y-8">
-        <div>
-          <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-balance">
-            Todos os pedidos
-          </h2>
-
-          {orders.length > 0 ? (
-            <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 mt-6">
-              {orders.map((order, index) => (
-                <div key={index}>
-                  <div className="p-4 border rounded-md">
-                    <p className="font-medium">Pedido #{index + 1}</p>
-                    <p className="text-sm text-muted-foreground">
-                      Envie o seu pedido o quanto antes. O cliente está
-                      esperando por você.
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          ) : (
-            <InfoBanner>Não encontramos nenhum pedido para você.</InfoBanner>
-          )}
-        </div>
       </section>
     </main>
   );

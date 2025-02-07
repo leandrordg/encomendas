@@ -36,7 +36,7 @@ export function RestaurantDropdown({ isAdmin = false, restaurant }: Props) {
     <DropdownMenu>
       <DropdownMenuTrigger onClick={(e) => e.stopPropagation()} asChild>
         <Button variant="outline" className="w-full md:size-8">
-          <EllipsisIcon className="hidden md:block"/>
+          <EllipsisIcon className="hidden md:block" />
           <span className="md:hidden text-xs">Mais opções</span>
         </Button>
       </DropdownMenuTrigger>
@@ -44,7 +44,7 @@ export function RestaurantDropdown({ isAdmin = false, restaurant }: Props) {
         <DropdownMenuLabel>Configurações</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href={path} target="_blank">
+          <Link href={`/restaurantes/${restaurant.slug}`}>
             <ExternalLinkIcon />
             Ver restaurante
           </Link>

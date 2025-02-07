@@ -26,42 +26,24 @@ export default async function IndividualProduct({ params }: Props) {
         </p>
 
         <div className="relative w-full h-36 sm:h-44 md:h-52 bg-muted rounded-md overflow-clip shadow-sm">
-          {product.imageUrl ? (
-            <Image
-              src={product.imageUrl}
-              alt={product.name}
-              className="w-full h-full object-cover bg-muted"
-              fill
-            />
-          ) : (
-            <Image
-              src="/images/placeholder.jpeg"
-              alt={product.name}
-              className="w-full h-full object-cover bg-muted"
-              fill
-            />
-          )}
+          <Image
+            src={product.imageUrl ?? "/images/placeholder.jpeg"}
+            alt={product.name}
+            className="w-full h-full object-cover bg-muted"
+            fill
+          />
         </div>
 
         {restaurant && (
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            {restaurant.imageUrl ? (
+            <div className="relative size-4 rounded-full border overflow-clip">
               <Image
-                src={restaurant.imageUrl}
+                src={restaurant.imageUrl ?? "/images/placeholder.jpeg"}
                 alt={restaurant.name}
-                width={50}
-                height={50}
-                className="size-4 rounded-full border bg-muted object-cover"
+                className="bg-muted object-cover"
+                fill
               />
-            ) : (
-              <Image
-                src="/images/placeholder.jpeg"
-                alt={restaurant.name}
-                width={50}
-                height={50}
-                className="size-4 rounded-full border bg-muted object-cover"
-              />
-            )}
+            </div>
 
             {restaurant.name}
           </div>

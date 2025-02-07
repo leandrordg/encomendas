@@ -17,21 +17,12 @@ export function ProductCard({ product, restaurant, reviews }: Props) {
     <Link href={`/restaurantes/${restaurant.slug}/produtos/${product.slug}`}>
       <div className="flex flex-col hover:shadow-md transition-all rounded-md overflow-clip border">
         <div className="relative w-full h-48">
-          {product.imageUrl ? (
-            <Image
-              src={product.imageUrl}
-              alt={product.name}
-              className="w-full h-full object-cover bg-muted"
-              fill
-            />
-          ) : (
-            <Image
-              src="/images/placeholder.jpeg"
-              alt={product.name}
-              className="w-full h-full object-cover bg-muted"
-              fill
-            />
-          )}
+          <Image
+            src={product.imageUrl ?? "/images/placeholder.jpeg"}
+            alt={product.name}
+            className="w-full h-full object-cover bg-muted"
+            fill
+          />
         </div>
 
         <div className="flex flex-col p-4 space-y-2">

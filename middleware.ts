@@ -6,12 +6,15 @@ const isPublicRoute = createRouteMatcher([
   "/categorias(.*)",
   "/restaurantes(.*)",
   "/sign-in(.*)",
+  "/api(.*)",
 ]);
 
 export default clerkMiddleware(async (auth, request) => {
   if (!isPublicRoute(request)) {
     await auth.protect();
   }
+
+  // TODO: verify the role when user tries to access a admin route
 });
 
 export const config = {

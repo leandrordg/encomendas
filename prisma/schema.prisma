@@ -17,7 +17,7 @@ model Restaurant {
   updatedAt   DateTime @updatedAt
 
   ownerId      String
-  owner        User          @relation(fields: [ownerId], references: [userId])
+  owner        User          @relation(fields: [ownerId], references: [userId], onDelete: Cascade)
   phoneNumbers PhoneNumber[]
   addresses    Address[]
   categories   Category[]
@@ -108,11 +108,11 @@ model Review {
   customerId String
   customer   User   @relation(fields: [customerId], references: [userId], onDelete: Cascade)
 
-  productId    String?
-  restaurantId String?
+  productId String?
+  product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
 
-  product    Product?    @relation(fields: [productId], references: [id], onDelete: Cascade)
-  restaurant Restaurant? @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
+  restaurantId String?
+  restaurant   Restaurant? @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
 
   @@index([productId])
   @@index([restaurantId])

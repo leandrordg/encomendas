@@ -44,7 +44,7 @@ export function CategoryDropdown({ isAdmin = false, category }: Props) {
           <DropdownMenuLabel>Configurações</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem asChild>
-            <Link href={`${path}/restaurantes`}>
+            <Link href={`/categorias/${category.slug}`}>
               <WarehouseIcon />
               Ver restaurantes
             </Link>
