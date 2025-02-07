@@ -14,7 +14,7 @@ export default async function Manage() {
     <main className="py-10 md:py-14 lg:py-20 space-y-8">
       <section className="max-w-5xl mx-auto p-4">
         <p className="text-sm uppercase font-semibold tracking-wider">
-          Painél de controle
+          Painel de controle
         </p>
 
         <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-balance">

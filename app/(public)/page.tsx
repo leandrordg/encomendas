@@ -15,7 +15,7 @@ export default async function Home() {
   return (
     <main className="py-10 md:py-14 lg:py-20 space-y-12">
       <section className="min-h-[60dvh] max-w-5xl mx-auto p-4 content-center md:text-center">
-        <h1 className="text-4xl sm:text-5xl font-bold tracking-tighter text-balance">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tighter text-balance">
           Sua{" "}
           <span className="text-transparent bg-clip-text bg-gradient-to-br from-[#b81414] via-[#da3434] to-[#f5a623]">
             comida favorita
@@ -23,12 +23,12 @@ export default async function Home() {
           , entregue com rapidez e sabor até a sua casa.
         </h1>
 
-        <p className="text-muted-foreground mt-6 max-w-md mx-auto">
+        <p className="text-muted-foreground mt-6">
           Encontre os melhores restaurantes da sua região e receba a comida que
           você ama em poucos minutos.
         </p>
 
-        <Button variant="destructive" className="w-full max-w-sm mt-8" asChild>
+        <Button variant="destructive" className="w-full md:max-w-sm mt-8" asChild>
           <Link href="/explorar">
             <SearchIcon />
             Explorar

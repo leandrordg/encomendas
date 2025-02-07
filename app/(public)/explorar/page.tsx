@@ -3,10 +3,13 @@ import { getRestaurants } from "@/hooks/restaurants";
 
 import { CategoryCard } from "@/components/cards/category-card";
 import { RestaurantCard } from "@/components/cards/restaurant-card";
+import { InfoBanner } from "@/components/info-banner";
 
 export default async function Explore() {
   const { latestRestaurants } = await getRestaurants();
   const { latestCategories } = await getCategories();
+
+  const emptyData = !latestRestaurants.length && !latestCategories.length;
 
   return (
     <main className="py-10 md:py-14 lg:py-20">
@@ -19,6 +22,12 @@ export default async function Explore() {
           Encontre os melhores restaurantes perto de você. Faça seu pedido
           agora!
         </p>
+
+        {emptyData && (
+          <InfoBanner>
+            Não há restaurantes ou categorias disponíveis no momento.
+          </InfoBanner>
+        )}
 
         {latestRestaurants.length > 0 && (
           <div className="mt-14">
