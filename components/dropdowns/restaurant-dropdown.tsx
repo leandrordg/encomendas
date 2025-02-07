@@ -30,7 +30,7 @@ interface Props {
 export function RestaurantDropdown({ isAdmin = false, restaurant }: Props) {
   const path = isAdmin
     ? `/admin/restaurantes/${restaurant.slug}`
-    : `/manage/restaurantes/${restaurant.slug}`;
+    : `/gerenciar/restaurantes/${restaurant.slug}`;
 
   return (
     <DropdownMenu>

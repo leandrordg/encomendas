@@ -47,7 +47,7 @@ export const updateRestaurant = async (data: Props) => {
       data,
     });
 
-    revalidatePath("/manage/restaurantes");
+    revalidatePath("/gerenciar/restaurantes");
 
     return restaurant;
   } catch {

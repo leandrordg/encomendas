@@ -19,13 +19,10 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export async function UserDropdown() {
+export async function UserDropdown({ isAdmin }: { isAdmin: boolean }) {
   const user = await currentUser();
 
   if (!user) return null;
-
-  // TODO: verify user role on clerk and database for safety
-  const isAdmin = true;
 
   return (
     <DropdownMenu>
@@ -66,7 +63,7 @@ export async function UserDropdown() {
         <DropdownMenuSeparator />
 
         <DropdownMenuItem asChild>
-          <Link href="/manage">
+          <Link href="/gerenciar">
             <LayoutDashboardIcon />
             Meus restaurantes
           </Link>
@@ -75,15 +72,16 @@ export async function UserDropdown() {
         <DropdownMenuSeparator />
 
         {isAdmin && (
-          <DropdownMenuItem asChild>
-            <Link href="/admin">
-              <ShieldIcon />
-              Administrador
-            </Link>
-          </DropdownMenuItem>
+          <>
+            <DropdownMenuItem asChild>
+              <Link href="/admin">
+                <ShieldIcon />
+                Administrador
+              </Link>
+            </DropdownMenuItem>
+            <DropdownMenuSeparator />
+          </>
         )}
-
-        <DropdownMenuSeparator />
 
         <SignOutButton>
           <DropdownMenuItem>

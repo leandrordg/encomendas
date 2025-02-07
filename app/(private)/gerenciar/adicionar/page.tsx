@@ -1,6 +1,6 @@
-import { CreateRestaurantForm } from "./create-restaurant-form";
+import { NewRestaurantForm } from "./new-restaurant-form";
 
-export default function CreateRestaurant() {
+export default function NewRestaurant() {
   return (
     <main className="py-10 md:py-14 lg:py-20 space-y-8">
       <section className="max-w-5xl mx-auto p-4">
@@ -18,7 +18,7 @@ export default function CreateRestaurant() {
       </section>
 
       <section className="max-w-5xl mx-auto p-4">
-        <CreateRestaurantForm />
+        <NewRestaurantForm />
       </section>
     </main>
   );

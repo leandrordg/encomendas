@@ -1,11 +1,15 @@
+import Link from "next/link";
+
 import { getCategories } from "@/hooks/categories";
 import { getRestaurants } from "@/hooks/restaurants";
 import { getUsers } from "@/hooks/users";
+import { PackagePlusIcon } from "lucide-react";
 
 import { CategoryCard } from "@/components/cards/category-card";
 import { RestaurantCard } from "@/components/cards/restaurant-card";
 import { UserCard } from "@/components/cards/user-card";
 import { InfoBanner } from "@/components/info-banner";
+import { Button } from "@/components/ui/button";
 
 export default async function Admin() {
   const { latestCategories } = await getCategories();
@@ -50,6 +54,13 @@ export default async function Admin() {
               Não encontramos restaurantes nesta categoria.
             </InfoBanner>
           )}
+
+          <Button variant="outline" className="mt-6" asChild>
+            <Link href="/admin/adicionar/categoria">
+              <PackagePlusIcon />
+              Adicionar categoria
+            </Link>
+          </Button>
         </div>
 
         <div>

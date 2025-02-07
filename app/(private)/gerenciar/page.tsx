@@ -54,7 +54,7 @@ export default async function Manage() {
         </div>
 
         <Button asChild>
-          <Link href="/manage/create">
+          <Link href="/gerenciar/adicionar">
             <MapPinPlusInsideIcon />
             Adicionar restaurante
           </Link>

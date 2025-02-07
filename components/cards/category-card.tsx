@@ -13,7 +13,7 @@ interface Props {
 export function CategoryCard({ type = "default", category }: Props) {
   const path = {
     default: `/categorias/${category.slug}`,
-    manage: `/manage/categorias/${category.slug}`,
+    manage: `/gerenciar/categorias/${category.slug}`,
     admin: `/admin/categorias/${category.slug}`,
   }[type];
 

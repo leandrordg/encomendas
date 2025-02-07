@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 
 import { UploadButton } from "@/lib/uploadthing";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Category } from "@prisma/client";
+import { Restaurant } from "@prisma/client";
 import { CheckIcon, TrashIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import { toast } from "sonner";
 import { z } from "zod";
-import { updateCategory } from "./actions";
+import { updateRestaurant } from "./actions";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -34,33 +34,33 @@ const formSchema = z.object({
 });
 
 interface Props {
-  category: Category;
+  restaurant: Restaurant;
 }
 
-export function EditCategoryForm({ category }: Props) {
+export function EditRestaurantForm({ restaurant }: Props) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: category.name,
-      slug: category.slug,
-      description: category.description,
-      imageUrl: category.imageUrl ?? "",
+      name: restaurant.name,
+      slug: restaurant.slug,
+      description: restaurant.description,
+      imageUrl: restaurant.imageUrl ?? "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const slug = slugify(values.name, { lower: true });
 
-    const data = { ...values, slug, id: category.id };
+    const data = { ...values, slug, id: restaurant.id };
 
-    const update = await updateCategory(data);
+    const update = await updateRestaurant(data);
 
-    if (!update) return toast.error("Erro ao atualizar categoria");
+    if (!update) return toast.error("Erro ao atualizar restaurante.");
 
-    toast.success("Categoria atualizada com sucesso");
-    return router.push("/admin");
+    toast.success("Restaurante atualizado com sucesso.");
+    return router.push("/gerenciar");
   }
 
   const { isValid, isDirty, isSubmitting } = form.formState;
@@ -73,7 +73,7 @@ export function EditCategoryForm({ category }: Props) {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome da categoria</FormLabel>
+              <FormLabel>Nome do restaurante</FormLabel>
               <FormControl>
                 <Input
                   disabled={isSubmitting}
@@ -90,11 +90,11 @@ export function EditCategoryForm({ category }: Props) {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Descrição da categoria</FormLabel>
+              <FormLabel>Descrição do restaurante</FormLabel>
               <FormControl>
                 <Textarea
                   disabled={isSubmitting}
-                  placeholder="Breve descrição da categoria."
+                  placeholder="Breve descrição do seu restaurante."
                   className="min-h-32"
                   {...field}
                 />
@@ -131,10 +131,10 @@ export function EditCategoryForm({ category }: Props) {
                 />
               </FormControl>
               {form.watch("imageUrl") && (
-                <div className="aspect-[3/2] max-h-64 relative">
+                <div className="aspect-[4/1] relative">
                   <Image
                     src={form.watch("imageUrl")!}
-                    alt="Imagem da categoria"
+                    alt="Imagem do restaurante"
                     className="w-full h-full rounded-md bg-muted object-cover"
                     fill
                   />
@@ -149,7 +149,7 @@ export function EditCategoryForm({ category }: Props) {
                   </Button>
                 </div>
               )}
-              <FormDescription>Recomendado 900x600px (3:2)</FormDescription>
+              <FormDescription>Recomendado 1600x400px (4:1)</FormDescription>
               <FormMessage />
             </FormItem>
           )}

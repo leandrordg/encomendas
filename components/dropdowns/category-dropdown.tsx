@@ -30,7 +30,7 @@ interface Props {
 export function CategoryDropdown({ isAdmin = false, category }: Props) {
   const path = isAdmin
     ? `/admin/categorias/${category.slug}`
-    : `/manage/categorias/${category.slug}`;
+    : `/gerenciar/categorias/${category.slug}`;
 
   return (
     <DropdownMenu>

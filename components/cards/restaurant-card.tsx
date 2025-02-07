@@ -25,7 +25,7 @@ export function RestaurantCard({
 }: Props) {
   const path = {
     default: `/restaurantes/${restaurant.slug}`,
-    manage: `/manage/restaurantes/${restaurant.slug}`,
+    manage: `/gerenciar/restaurantes/${restaurant.slug}`,
     admin: `/admin/restaurantes/${restaurant.slug}`,
   }[type];
 

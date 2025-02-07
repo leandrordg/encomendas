@@ -46,7 +46,7 @@ export const createRestaurant = async (data: Props) => {
     },
   });
 
-  revalidatePath("/manage");
+  revalidatePath("/gerenciar");
 
   return restaurant;
 };

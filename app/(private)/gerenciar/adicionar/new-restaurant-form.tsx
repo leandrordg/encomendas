@@ -5,13 +5,12 @@ import { useRouter } from "next/navigation";
 
 import { UploadButton } from "@/lib/uploadthing";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Restaurant } from "@prisma/client";
-import { CheckIcon, TrashIcon } from "lucide-react";
+import { CirclePlusIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import { toast } from "sonner";
 import { z } from "zod";
-import { updateRestaurant } from "./actions";
+import { createRestaurant } from "./actions";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -33,34 +32,31 @@ const formSchema = z.object({
   imageUrl: z.optional(z.string()),
 });
 
-interface Props {
-  restaurant: Restaurant;
-}
-
-export function EditRestaurantForm({ restaurant }: Props) {
+export function NewRestaurantForm() {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: restaurant.name,
-      slug: restaurant.slug,
-      description: restaurant.description,
-      imageUrl: restaurant.imageUrl ?? "",
+      name: "",
+      slug: "",
+      description: "",
+      imageUrl: "",
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const slug = slugify(values.name, { lower: true });
 
-    const data = { ...values, slug, id: restaurant.id };
+    const data = await createRestaurant({
+      ...values,
+      slug,
+    });
 
-    const update = await updateRestaurant(data);
+    if (!data) return toast.error("Erro ao criar restaurante");
 
-    if (!update) return toast.error("Erro ao atualizar restaurante.");
-
-    toast.success("Restaurante atualizado com sucesso.");
-    return router.push("/manage");
+    toast.success("Restaurante criado com sucesso");
+    return router.push("/gerenciar");
   }
 
   const { isValid, isDirty, isSubmitting } = form.formState;
@@ -119,14 +115,10 @@ export function EditRestaurantForm({ restaurant }: Props) {
                   disabled={isSubmitting}
                   endpoint="imageUploader"
                   onClientUploadComplete={(res) => {
-                    form.setValue("imageUrl", res[0].url, {
-                      shouldDirty: true,
-                    });
+                    form.setValue("imageUrl", res[0].url);
                   }}
                   onUploadError={(error: Error) => {
-                    toast.error("Erro ao fazer upload da imagem.", {
-                      description: error.message,
-                    });
+                    console.error("Upload error: ", error);
                   }}
                 />
               </FormControl>
@@ -135,29 +127,22 @@ export function EditRestaurantForm({ restaurant }: Props) {
                   <Image
                     src={form.watch("imageUrl")!}
                     alt="Imagem do restaurante"
-                    className="w-full h-full rounded-md bg-muted object-cover"
+                    className="rounded-md bg-muted object-cover aspect-video"
                     fill
                   />
-                  <Button
-                    type="button"
-                    className="absolute top-2 right-2"
-                    onClick={() =>
-                      form.setValue("imageUrl", "", { shouldDirty: true })
-                    }
-                  >
-                    <TrashIcon />
-                  </Button>
                 </div>
               )}
-              <FormDescription>Recomendado 1600x400px (4:1)</FormDescription>
+              <FormDescription>
+                Recomendado 800x600 pixels (16/9).
+              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
         <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>
-          <CheckIcon />
-          Salvar alterações
+          <CirclePlusIcon />
+          Adicionar restaurante
         </Button>
       </form>
     </Form>

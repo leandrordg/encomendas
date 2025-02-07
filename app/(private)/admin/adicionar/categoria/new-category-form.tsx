@@ -5,12 +5,12 @@ import { useRouter } from "next/navigation";
 
 import { UploadButton } from "@/lib/uploadthing";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CirclePlusIcon } from "lucide-react";
+import { CheckIcon, TrashIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import { toast } from "sonner";
 import { z } from "zod";
-import { createRestaurant } from "./actions";
+import { createCategory } from "./actions";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -32,7 +32,7 @@ const formSchema = z.object({
   imageUrl: z.optional(z.string()),
 });
 
-export function CreateRestaurantForm() {
+export function NewCategoryForm() {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -48,15 +48,14 @@ export function CreateRestaurantForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const slug = slugify(values.name, { lower: true });
 
-    const data = await createRestaurant({
-      ...values,
-      slug,
-    });
+    const data = { ...values, slug };
 
-    if (!data) return toast.error("Erro ao criar restaurante");
+    const create = await createCategory(data);
 
-    toast.success("Restaurante criado com sucesso");
-    return router.push("/manage");
+    if (!create) return toast.error("Erro ao adicionar a categoria!");
+
+    toast.success("Categoria adicionada com sucesso!");
+    return router.push("/admin");
   }
 
   const { isValid, isDirty, isSubmitting } = form.formState;
@@ -69,7 +68,7 @@ export function CreateRestaurantForm() {
           name="name"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome do restaurante</FormLabel>
+              <FormLabel>Nome da categoria</FormLabel>
               <FormControl>
                 <Input
                   disabled={isSubmitting}
@@ -86,11 +85,11 @@ export function CreateRestaurantForm() {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Descrição do restaurante</FormLabel>
+              <FormLabel>Descrição da categoria</FormLabel>
               <FormControl>
                 <Textarea
                   disabled={isSubmitting}
-                  placeholder="Breve descrição do seu restaurante."
+                  placeholder="Breve descrição da categoria."
                   className="min-h-32"
                   {...field}
                 />
@@ -115,34 +114,45 @@ export function CreateRestaurantForm() {
                   disabled={isSubmitting}
                   endpoint="imageUploader"
                   onClientUploadComplete={(res) => {
-                    form.setValue("imageUrl", res[0].url);
+                    form.setValue("imageUrl", res[0].url, {
+                      shouldDirty: true,
+                    });
                   }}
                   onUploadError={(error: Error) => {
-                    console.error("Upload error: ", error);
+                    toast.error("Erro ao fazer upload da imagem.", {
+                      description: error.message,
+                    });
                   }}
                 />
               </FormControl>
               {form.watch("imageUrl") && (
-                <div className="aspect-[4/1] relative">
+                <div className="aspect-[3/2] max-h-64 relative">
                   <Image
                     src={form.watch("imageUrl")!}
-                    alt="Imagem do restaurante"
-                    className="rounded-md bg-muted object-cover aspect-video"
+                    alt="Imagem da categoria"
+                    className="w-full h-full rounded-md bg-muted object-cover"
                     fill
                   />
+                  <Button
+                    type="button"
+                    className="absolute top-2 right-2"
+                    onClick={() =>
+                      form.setValue("imageUrl", "", { shouldDirty: true })
+                    }
+                  >
+                    <TrashIcon />
+                  </Button>
                 </div>
               )}
-              <FormDescription>
-                Recomendado 800x600 pixels (16/9).
-              </FormDescription>
+              <FormDescription>Recomendado 900x600px (3:2)</FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
 
         <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>
-          <CirclePlusIcon />
-          Adicionar restaurante
+          <CheckIcon />
+          Adicionar categoria
         </Button>
       </form>
     </Form>
