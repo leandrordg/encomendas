@@ -9,8 +9,8 @@ import { ClerkProvider } from "@clerk/nextjs";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Aplicativo web de encomendas",
-  description: "Aplicativo web de encomendas, feito com Next.js e TypeScript",
+  title: "OrderFoodNow",
+  description: "Peça a sua comida favorita de forma rápida e prática",
 };
 
 export default function RootLayout({

@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { auth } from "@clerk/nextjs/server";
 
 export const getRestaurants = async () => {
   const restaurants = await prisma.restaurant.findMany({
@@ -74,7 +75,11 @@ export const getRestaurantsByCategory = async (slug: string) => {
   };
 };
 
-export const getRestaurantsByUser = async (userId: string) => {
+export const getRestaurantsByUser = async () => {
+  const { userId } = await auth();
+
+  if (!userId) throw new Error("Usuário não autenticado.");
+
   const restaurants = await prisma.restaurant.findMany({
     where: {
       ownerId: userId,

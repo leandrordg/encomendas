@@ -1,7 +1,10 @@
-import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
-import { Button } from "./ui/button";
+
+import { SignedIn, SignedOut, SignInButton, UserButton } from "@clerk/nextjs";
+import { LayoutDashboardIcon, ShieldIcon } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
 
 export function Header() {
   return (
@@ -21,7 +24,16 @@ export function Header() {
           </SignedOut>
           <SignedIn>
             <Button size="sm" asChild>
-              <Link href="/manage">Dashboard</Link>
+              <Link href="/admin">
+                <ShieldIcon />
+                <span className="hidden md:block">Administrador</span>
+              </Link>
+            </Button>
+            <Button size="sm" asChild>
+              <Link href="/manage">
+                <LayoutDashboardIcon />
+                <span className="hidden md:block">Dashboard</span>
+              </Link>
             </Button>
             <div className="size-8 bg-muted rounded-full flex items-center justify-center">
               <UserButton />

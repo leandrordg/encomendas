@@ -1,15 +1,13 @@
-import { getRestaurantsByUser } from "@/hooks/restaurants";
-import { auth } from "@clerk/nextjs/server";
-
-import { RestaurantCard } from "@/components/restaurant-card";
-import { InfoIcon, MapPinPlusInsideIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export default async function Manage() {
-  const { userId } = await auth();
+import { getRestaurantsByUser } from "@/hooks/restaurants";
+import { InfoIcon, MapPinPlusInsideIcon } from "lucide-react";
 
-  const { restaurants } = await getRestaurantsByUser(userId!);
+import { RestaurantCard } from "@/components/restaurant-card";
+import { Button } from "@/components/ui/button";
+
+export default async function Manage() {
+  const { restaurants } = await getRestaurantsByUser();
 
   return (
     <main className="py-10 md:py-14 lg:py-20 space-y-8">
