@@ -2,14 +2,13 @@
 
 import Link from "next/link";
 
-import { Category } from "@prisma/client";
 import {
   EllipsisIcon,
+  ExternalLinkIcon,
   PackageSearchIcon,
   PenIcon,
   StarIcon,
   TrashIcon,
-  WarehouseIcon,
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
@@ -21,12 +20,13 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Restaurant } from "@prisma/client";
 
 interface Props {
-  category: Category;
+  restaurant: Restaurant;
 }
 
-export function AdminCategoryDropdown({ category }: Props) {
+export function ManageRestaurantDropdown({ restaurant }: Props) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger onClick={(e) => e.stopPropagation()} asChild>
@@ -38,26 +38,26 @@ export function AdminCategoryDropdown({ category }: Props) {
         <DropdownMenuLabel>Configurações</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href={`/admin/categorias/${category.slug}/restaurantes`}>
-            <WarehouseIcon />
-            Ver restaurantes
+          <Link href={`/restaurantes/${restaurant.slug}`} target="_blank">
+            <ExternalLinkIcon />
+            Ver restaurante
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href={`/admin/categorias/${category.slug}/produtos`}>
+          <Link href={`/manage/restaurantes/${restaurant.slug}/produtos`}>
             <PackageSearchIcon />
             Ver produtos
           </Link>
         </DropdownMenuItem>
         <DropdownMenuItem asChild>
-          <Link href={`/admin/categorias/${category.slug}/reviews`}>
+          <Link href={`/manage/restaurantes/${restaurant.slug}/reviews`}>
             <StarIcon />
             Ver reviews
           </Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
-          <Link href={`/admin/categorias/${category.slug}`}>
+          <Link href={`/manage/restaurantes/${restaurant.slug}`}>
             <PenIcon />
             Editar
           </Link>

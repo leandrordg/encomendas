@@ -23,6 +23,7 @@ export function Header() {
             </Button>
           </SignedOut>
           <SignedIn>
+            {/* TODO: add verification for role on clerk and database for safety */}
             <Button size="sm" asChild>
               <Link href="/admin">
                 <ShieldIcon />

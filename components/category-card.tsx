@@ -21,7 +21,7 @@ export function CategoryCard({ category }: Props) {
           />
         ) : (
           <Image
-            src="/images/placeholder.svg"
+            src="/images/placeholder.JPEG"
             alt={category.name}
             className="w-full h-full object-cover bg-muted"
             fill

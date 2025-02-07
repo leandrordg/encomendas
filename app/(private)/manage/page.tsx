@@ -3,15 +3,22 @@ import Link from "next/link";
 import { getRestaurantsByUser } from "@/hooks/restaurants";
 import { InfoIcon, MapPinPlusInsideIcon } from "lucide-react";
 
-import { RestaurantCard } from "@/components/restaurant-card";
+import { ManageRestaurantCard } from "@/components/manage-restaurant-card";
 import { Button } from "@/components/ui/button";
 
 export default async function Manage() {
   const { restaurants } = await getRestaurantsByUser();
 
+  // TODO: get orders by user
+  const { orders } = { orders: [] };
+
   return (
     <main className="py-10 md:py-14 lg:py-20 space-y-8">
       <section className="max-w-5xl mx-auto p-4">
+        <p className="text-sm uppercase font-semibold tracking-wider">
+          Painél de controle
+        </p>
+
         <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-balance">
           Gerenciar
         </h1>
@@ -38,12 +45,9 @@ export default async function Manage() {
 
             <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 mt-6">
               {restaurants.map((restaurant) => (
-                <RestaurantCard
+                <ManageRestaurantCard
                   key={restaurant.id}
                   restaurant={restaurant}
-                  categories={restaurant.categories}
-                  products={restaurant.products}
-                  reviews={restaurant.reviews}
                 />
               ))}
             </div>
@@ -56,6 +60,35 @@ export default async function Manage() {
             Adicionar restaurante
           </Link>
         </Button>
+      </section>
+
+      <section className="max-w-5xl mx-auto p-4 space-y-8">
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-balance">
+            Todos os pedidos
+          </h2>
+
+          {orders.length > 0 ? (
+            <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 mt-6">
+              {orders.map((order, index) => (
+                <div key={index}>
+                  <div className="p-4 border rounded-md">
+                    <p className="font-medium">Pedido #{index + 1}</p>
+                    <p className="text-sm text-muted-foreground">
+                      Envie o seu pedido o quanto antes. O cliente está
+                      esperando por você.
+                    </p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex sm:items-center gap-4 p-6 border rounded-md text-sm text-muted-foreground mt-6">
+              <InfoIcon className="size-4 shrink-0" />
+              Não encontramos nenhum pedido para você.
+            </div>
+          )}
+        </div>
       </section>
     </main>
   );

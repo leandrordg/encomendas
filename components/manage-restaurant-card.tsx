@@ -1,31 +1,31 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Category } from "@prisma/client";
+import { Restaurant } from "@prisma/client";
 
-import { AdminCategoryDropdown } from "./admin-category-dropdown";
+import { ManageRestaurantDropdown } from "./manage-restaurant-dropdown";
 
 interface Props {
-  category: Category;
+  restaurant: Restaurant;
 }
 
-export function AdminCategoryCard({ category }: Props) {
+export function ManageRestaurantCard({ restaurant }: Props) {
   return (
-    <Link href={`/admin/categories/${category.slug}`}>
+    <Link href={`/manage/restaurantes/${restaurant.slug}`}>
       <div className="p-4 rounded-md border hover:bg-muted">
         <div className="flex gap-4">
           <div className="size-12 rounded-md relative overflow-clip border shrink-0">
-            {category.imageUrl ? (
+            {restaurant.imageUrl ? (
               <Image
-                src={category.imageUrl}
-                alt={category.name}
+                src={restaurant.imageUrl}
+                alt={restaurant.name}
                 className="w-full h-full bg-muted object-cover"
                 fill
               />
             ) : (
               <Image
                 src="/images/placeholder.JPEG"
-                alt={category.name}
+                alt={restaurant.name}
                 className="w-full h-full bg-muted object-cover"
                 fill
               />
@@ -34,14 +34,14 @@ export function AdminCategoryCard({ category }: Props) {
 
           <div>
             <h3 className="text-sm md:text-base font-bold text-balance">
-              {category.name}
+              {restaurant.name}
             </h3>
-            <p className="text-sm text-muted-foreground">
-              {category.description}
+            <p className="text-sm text-muted-foreground line-clamp-2">
+              {restaurant.description}
             </p>
           </div>
 
-          <AdminCategoryDropdown category={category} />
+          <ManageRestaurantDropdown restaurant={restaurant} />
         </div>
       </div>
     </Link>

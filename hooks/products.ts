@@ -1,5 +1,13 @@
 import { prisma } from "@/lib/prisma";
 
+export const getProducts = async () => {
+  return await prisma.product.findMany({
+    include: {
+      restaurant: true,
+    },
+  });
+};
+
 export const getProductBySlug = async (slug: string) => {
   const product = await prisma.product.findUnique({
     where: {
