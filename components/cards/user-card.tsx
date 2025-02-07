@@ -6,7 +6,7 @@ interface Props {
   user: User;
 }
 
-export function AdminUserCard({ user }: Props) {
+export function UserCard({ user }: Props) {
   return (
     <div className="p-4 rounded-md border hover:bg-muted transition-all">
       <div className="flex gap-4">

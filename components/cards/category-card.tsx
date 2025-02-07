@@ -1,16 +1,22 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { Category, Restaurant } from "@prisma/client";
+import { Category } from "@prisma/client";
 
 interface Props {
+  type?: "default" | "manage" | "admin";
   category: Category;
-  restaurants?: Restaurant[];
 }
 
-export function CategoryCard({ category }: Props) {
+export function CategoryCard({ type = "default", category }: Props) {
+  const path = {
+    default: `/categorias/${category.slug}`,
+    manage: `/manage/categorias/${category.slug}`,
+    admin: `/admin/categorias/${category.slug}`,
+  }[type];
+
   return (
-    <Link href={`/categorias/${category.slug}`}>
+    <Link href={path}>
       <div className="relative w-full h-40 sm:max-h-48 md:max-h-52 group rounded-md overflow-clip">
         {category.imageUrl ? (
           <Image

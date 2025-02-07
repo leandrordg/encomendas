@@ -1,7 +1,7 @@
 import { getProductsByRestaurant } from "@/hooks/products";
 import { Category, Restaurant } from "@prisma/client";
 
-import { ProductCard } from "@/components/product-card";
+import { ProductCard } from "@/components/cards/product-card";
 
 interface Props {
   restaurant: Restaurant;

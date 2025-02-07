@@ -3,9 +3,9 @@ import { getRestaurants } from "@/hooks/restaurants";
 import { getUsers } from "@/hooks/users";
 import { InfoIcon } from "lucide-react";
 
-import { AdminCategoryCard } from "@/components/admin-category-card";
-import { AdminRestaurantCard } from "@/components/admin-restaurant-card";
-import { AdminUserCard } from "@/components/admin-user-card";
+import { CategoryCard } from "@/components/cards/category-card";
+import { RestaurantCard } from "@/components/cards/restaurant-card";
+import { UserCard } from "@/components/cards/user-card";
 
 export default async function Admin() {
   const { latestCategories } = await getCategories();
@@ -38,7 +38,11 @@ export default async function Admin() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               {latestCategories.map((category) => (
-                <AdminCategoryCard key={category.id} category={category} />
+                <CategoryCard
+                  key={category.id}
+                  category={category}
+                  type="admin"
+                />
               ))}
             </div>
           </div>
@@ -57,9 +61,13 @@ export default async function Admin() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               {latestRestaurants.map((restaurant) => (
-                <AdminRestaurantCard
+                <RestaurantCard
+                  type="admin"
                   key={restaurant.id}
                   restaurant={restaurant}
+                  categories={restaurant.categories}
+                  products={restaurant.products}
+                  reviews={restaurant.reviews}
                 />
               ))}
             </div>
@@ -79,7 +87,7 @@ export default async function Admin() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               {latestUsers.map((user) => (
-                <AdminUserCard key={user.id} user={user} />
+                <UserCard key={user.id} user={user} />
               ))}
             </div>
           </div>

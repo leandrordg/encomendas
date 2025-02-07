@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getRestaurantsByUser } from "@/hooks/restaurants";
 import { InfoIcon, MapPinPlusInsideIcon } from "lucide-react";
 
-import { ManageRestaurantCard } from "@/components/manage-restaurant-card";
+import { RestaurantCard } from "@/components/cards/restaurant-card";
 import { Button } from "@/components/ui/button";
 
 export default async function Manage() {
@@ -45,9 +45,13 @@ export default async function Manage() {
 
             <div className="grid grid-cols-1 xs:grid-cols-2 gap-4 mt-6">
               {restaurants.map((restaurant) => (
-                <ManageRestaurantCard
+                <RestaurantCard
+                  type="manage"
                   key={restaurant.id}
                   restaurant={restaurant}
+                  categories={restaurant.categories}
+                  products={restaurant.products}
+                  reviews={restaurant.reviews}
                 />
               ))}
             </div>

@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { getRestaurantsByCategory } from "@/hooks/restaurants";
 import { InfoIcon } from "lucide-react";
 
-import { RestaurantCard } from "@/components/restaurant-card";
+import { RestaurantCard } from "@/components/cards/restaurant-card";
 
 interface Props {
   params: Promise<{ slug: string }>;

@@ -8,6 +8,7 @@ import { StarIcon } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 
 interface Props {
+  type?: "default" | "manage" | "admin";
   restaurant: Restaurant;
   categories?: Category[];
   products?: Product[];
@@ -15,13 +16,20 @@ interface Props {
 }
 
 export function RestaurantCard({
+  type = "default",
   restaurant,
   categories,
   products,
   reviews,
 }: Props) {
+  const path = {
+    default: `/restaurantes/${restaurant.slug}`,
+    manage: `/manage/restaurantes/${restaurant.slug}`,
+    admin: `/admin/restaurantes/${restaurant.slug}`,
+  }[type];
+
   return (
-    <Link href={`/restaurantes/${restaurant.slug}`}>
+    <Link href={path}>
       <div className="flex flex-col md:flex-row md:items-center md:gap-4 hover:shadow-md transition-all rounded-md overflow-clip border">
         {restaurant.imageUrl ? (
           <Image

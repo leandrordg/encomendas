@@ -4,8 +4,8 @@ import { getCategories } from "@/hooks/categories";
 import { getRestaurants } from "@/hooks/restaurants";
 import { SearchIcon } from "lucide-react";
 
-import { CategoryCard } from "@/components/category-card";
-import { RestaurantCard } from "@/components/restaurant-card";
+import { CategoryCard } from "@/components/cards/category-card";
+import { RestaurantCard } from "@/components/cards/restaurant-card";
 import { Button } from "@/components/ui/button";
 
 export default async function Home() {
@@ -65,11 +65,7 @@ export default async function Home() {
 
             <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
               {latestCategories.map((category) => (
-                <CategoryCard
-                  key={category.id}
-                  category={category}
-                  restaurants={category.restaurants}
-                />
+                <CategoryCard key={category.id} category={category} />
               ))}
             </div>
           </div>
