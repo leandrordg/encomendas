@@ -29,7 +29,7 @@ export function RestaurantHeader({ restaurant, categories, products }: Props) {
           />
         ) : (
           <Image
-            src="https://placehold.co/200x200/png"
+            src="/images/placeholder.jpeg"
             alt={restaurant.name}
             className="w-full h-full object-cover bg-muted"
             fill

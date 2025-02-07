@@ -35,7 +35,7 @@ export default async function IndividualProduct({ params }: Props) {
             />
           ) : (
             <Image
-              src="https://placehold.co/200x200/png"
+              src="/images/placeholder.jpeg"
               alt={product.name}
               className="w-full h-full object-cover bg-muted"
               fill
@@ -45,13 +45,24 @@ export default async function IndividualProduct({ params }: Props) {
 
         {restaurant && (
           <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <Image
-              src={restaurant.imageUrl || "https://placehold.co/200x200/png"}
-              alt={restaurant.name}
-              width={50}
-              height={50}
-              className="size-4 rounded-full border bg-muted"
-            />
+            {restaurant.imageUrl ? (
+              <Image
+                src={restaurant.imageUrl}
+                alt={restaurant.name}
+                width={50}
+                height={50}
+                className="size-4 rounded-full border bg-muted object-cover"
+              />
+            ) : (
+              <Image
+                src="/images/placeholder.jpeg"
+                alt={restaurant.name}
+                width={50}
+                height={50}
+                className="size-4 rounded-full border bg-muted object-cover"
+              />
+            )}
+
             {restaurant.name}
           </div>
         )}

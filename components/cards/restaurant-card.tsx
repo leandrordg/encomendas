@@ -32,23 +32,23 @@ export function RestaurantCard({
   return (
     <Link href={path}>
       <div className="flex flex-col md:flex-row md:items-center hover:shadow-md transition-all rounded-md overflow-clip border">
-        {restaurant.imageUrl ? (
-          <Image
-            src={restaurant.imageUrl}
-            alt={restaurant.name}
-            width={200}
-            height={200}
-            className="w-full md:size-24 object-cover bg-muted"
-          />
-        ) : (
-          <Image
-            src="https://placehold.co/200x200/png"
-            alt={restaurant.name}
-            width={200}
-            height={200}
-            className="w-full md:size-24 object-cover bg-muted"
-          />
-        )}
+        <div className="relative w-full h-48 md:size-24">
+          {restaurant.imageUrl ? (
+            <Image
+              src={restaurant.imageUrl}
+              alt={restaurant.name}
+              className="w-full h-full object-cover bg-muted"
+              fill
+            />
+          ) : (
+            <Image
+              src="/images/placeholder.jpeg"
+              alt={restaurant.name}
+              className="w-full h-full object-cover bg-muted"
+              fill
+            />
+          )}
+        </div>
         <div className="flex flex-col flex-1 p-4">
           {categories && (
             <p className="text-xs text-muted-foreground">

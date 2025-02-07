@@ -21,14 +21,14 @@ export function ProductCard({ product, restaurant, reviews }: Props) {
             <Image
               src={product.imageUrl}
               alt={product.name}
-              className="w-full object-cover bg-muted"
+              className="w-full h-full object-cover bg-muted"
               fill
             />
           ) : (
             <Image
-              src="https://placehold.co/200x200/png"
+              src="/images/placeholder.jpeg"
               alt={product.name}
-              className="w-full md:size-24 object-cover bg-muted"
+              className="w-full h-full object-cover bg-muted"
               fill
             />
           )}

@@ -29,7 +29,7 @@ export function CategoryCard({ type = "default", category }: Props) {
           />
         ) : (
           <Image
-            src="/images/placeholder.JPEG"
+            src="/images/placeholder.jpeg"
             alt={category.name}
             className="w-full h-full object-cover bg-muted"
             fill
