@@ -30,12 +30,12 @@ export default async function Admin() {
       </section>
 
       <section className="max-w-5xl mx-auto p-4 space-y-8">
-        {latestCategories.length > 0 ? (
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-balance">
-              Todas as categorias
-            </h2>
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-balance">
+            Todas as categorias
+          </h2>
 
+          {latestCategories.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               {latestCategories.map((category) => (
                 <CategoryCard
@@ -45,17 +45,19 @@ export default async function Admin() {
                 />
               ))}
             </div>
-          </div>
-        ) : (
-          <InfoBanner>Não encontramos restaurantes nesta categoria.</InfoBanner>
-        )}
+          ) : (
+            <InfoBanner>
+              Não encontramos restaurantes nesta categoria.
+            </InfoBanner>
+          )}
+        </div>
 
-        {latestRestaurants.length > 0 ? (
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-balance">
-              Todos os restaurantes
-            </h2>
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-balance">
+            Todos os restaurantes
+          </h2>
 
+          {latestRestaurants.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               {latestRestaurants.map((restaurant) => (
                 <RestaurantCard
@@ -68,26 +70,30 @@ export default async function Admin() {
                 />
               ))}
             </div>
-          </div>
-        ) : (
-          <InfoBanner>Não encontramos restaurantes nesta categoria.</InfoBanner>
-        )}
+          ) : (
+            <InfoBanner>
+              Não encontramos restaurantes nesta categoria.
+            </InfoBanner>
+          )}
+        </div>
 
-        {latestUsers.length > 0 ? (
-          <div>
-            <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-balance">
-              Usuários
-            </h2>
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-balance">
+            Usuários
+          </h2>
 
+          {latestUsers.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-6">
               {latestUsers.map((user) => (
                 <UserCard key={user.id} user={user} />
               ))}
             </div>
-          </div>
-        ) : (
-          <InfoBanner>Não encontramos restaurantes nesta categoria.</InfoBanner>
-        )}
+          ) : (
+            <InfoBanner>
+              Não encontramos restaurantes nesta categoria.
+            </InfoBanner>
+          )}
+        </div>
       </section>
     </main>
   );
