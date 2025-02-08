@@ -75,7 +75,7 @@ export function RestaurantCard({
         </div>
 
         {(type === "manage" || type === "admin") && (
-          <div className="flex items-center justify-center p-4">
+          <div className="flex items-center justify-center px-4 pb-4 md:pb-0">
             <RestaurantDropdown
               restaurant={restaurant}
               isAdmin={type === "admin"}

@@ -5,7 +5,7 @@ import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { currentUser } from "@clerk/nextjs/server";
 
-interface Props {
+interface UpdateRestaurantProps {
   id: string;
   name: string;
   slug: string;
@@ -13,7 +13,7 @@ interface Props {
   imageUrl?: string | undefined;
 }
 
-export const updateRestaurant = async (data: Props) => {
+export const updateRestaurant = async (data: UpdateRestaurantProps) => {
   const user = await currentUser();
 
   if (!user) throw new Error("Usuário não autenticado.");
@@ -52,5 +52,48 @@ export const updateRestaurant = async (data: Props) => {
     return restaurant;
   } catch {
     throw new Error("Erro ao atualizar restaurante.");
+  }
+};
+
+interface UpdateRestaurantCategoriesProps {
+  restaurantId: string;
+  categories: string[];
+}
+
+export const updateRestaurantCategories = async (
+  data: UpdateRestaurantCategoriesProps
+) => {
+  const user = await currentUser();
+
+  if (!user) throw new Error("Usuário não autenticado.");
+
+  // verify if user is restaurant owner
+  const restaurantOwner = await prisma.restaurant.findFirst({
+    where: {
+      id: data.restaurantId,
+      ownerId: user.id,
+    },
+  });
+
+  if (!restaurantOwner)
+    throw new Error(
+      "Você não tem permissão para editar as categorias deste restaurante."
+    );
+
+  try {
+    const restaurant = await prisma.restaurant.update({
+      where: { id: data.restaurantId },
+      data: {
+        categories: {
+          set: data.categories.map((categoryId) => ({ id: categoryId })),
+        },
+      },
+    });
+
+    revalidatePath("/gerenciar/restaurantes");
+
+    return restaurant;
+  } catch {
+    throw new Error("Erro ao atualizar categorias do restaurante.");
   }
 };

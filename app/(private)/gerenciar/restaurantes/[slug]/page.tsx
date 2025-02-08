@@ -1,8 +1,10 @@
 import { notFound } from "next/navigation";
 
+import { getCategories } from "@/hooks/categories";
 import { getUserRestaurantBySlug } from "@/hooks/restaurants";
 
 import { Separator } from "@/components/ui/separator";
+import { EditCategoryRestaurantForm } from "./edit-category-restaurant-form";
 import { EditRestaurantForm } from "./edit-restaurant-form";
 
 interface Props {
@@ -12,7 +14,8 @@ interface Props {
 export default async function EditRestaurant({ params }: Props) {
   const { slug } = await params;
 
-  const { restaurant } = await getUserRestaurantBySlug(slug);
+  const { restaurant, categories } = await getUserRestaurantBySlug(slug);
+  const { latestCategories } = await getCategories();
 
   if (!restaurant) return notFound();
 
@@ -40,6 +43,20 @@ export default async function EditRestaurant({ params }: Props) {
         </p>
 
         <EditRestaurantForm restaurant={restaurant} />
+      </section>
+
+      <Separator className="h-1" />
+
+      <section className="max-w-5xl mx-auto p-4 space-y-6">
+        <p className="text-muted-foreground uppercase font-semibold tracking-wider">
+          Categorias do restaurante
+        </p>
+
+        <EditCategoryRestaurantForm
+          restaurant={restaurant}
+          categories={categories}
+          allCategories={latestCategories}
+        />
       </section>
     </main>
   );
