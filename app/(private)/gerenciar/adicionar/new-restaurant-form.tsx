@@ -123,7 +123,7 @@ export function NewRestaurantForm() {
                 />
               </FormControl>
               {form.watch("imageUrl") && (
-                <div className="aspect-[4/1] relative">
+                <div className="aspect-[6/2] relative">
                   <Image
                     src={form.watch("imageUrl")!}
                     alt="Imagem do restaurante"

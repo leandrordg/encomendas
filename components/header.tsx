@@ -2,9 +2,10 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
-import { LayoutDashboardIcon, LogInIcon, ShieldIcon } from "lucide-react";
+import { LogInIcon } from "lucide-react";
 
 import { UserDropdown } from "@/components/dropdowns/user-dropdown";
+import { MobileMenuSheet } from "@/components/sheets/mobile-menu-sheet";
 import { Button } from "@/components/ui/button";
 
 export function Header() {
@@ -25,6 +26,8 @@ export function Header() {
         </Link>
 
         <div className="flex items-center gap-4 ml-auto">
+          <MobileMenuSheet />
+
           <SignedOut>
             <SignInButton mode="modal">
               <Button size="sm">
@@ -33,23 +36,8 @@ export function Header() {
               </Button>
             </SignInButton>
           </SignedOut>
+
           <SignedIn>
-            {isAdmin && (
-              <Button size="sm" className="hidden md:inline-flex" asChild>
-                <Link href="/admin">
-                  <ShieldIcon />
-                  <span className="hidden md:block">Administrador</span>
-                </Link>
-              </Button>
-            )}
-
-            <Button size="sm" className="hidden md:inline-flex" asChild>
-              <Link href="/gerenciar">
-                <LayoutDashboardIcon />
-                <span className="hidden md:block">Meus restaurantes</span>
-              </Link>
-            </Button>
-
             <UserDropdown isAdmin={isAdmin} />
           </SignedIn>
         </div>

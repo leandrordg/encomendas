@@ -131,7 +131,7 @@ export function EditRestaurantForm({ restaurant }: Props) {
                 />
               </FormControl>
               {form.watch("imageUrl") && (
-                <div className="aspect-[4/1] relative">
+                <div className="aspect-[6/2] relative">
                   <Image
                     src={form.watch("imageUrl")!}
                     alt="Imagem do restaurante"
@@ -149,7 +149,7 @@ export function EditRestaurantForm({ restaurant }: Props) {
                   </Button>
                 </div>
               )}
-              <FormDescription>Recomendado 1600x400px (4:1)</FormDescription>
+              <FormDescription>Recomendado 900x300 (6:2)</FormDescription>
               <FormMessage />
             </FormItem>
           )}

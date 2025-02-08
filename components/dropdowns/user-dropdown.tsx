@@ -27,16 +27,16 @@ export async function UserDropdown({ isAdmin }: { isAdmin: boolean }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <div className="size-8 relative rounded-md border overflow-clip">
+        <button className="size-8 relative rounded-full border overflow-clip">
           <Image
             src={user.imageUrl}
             alt={user.fullName ?? user.id}
             className="object-cover bg-muted"
             fill
           />
-        </div>
+        </button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
+      <DropdownMenuContent className="min-w-48 md:min-w-64" align="end">
         <div className="px-2 py-1.5">
           <p className="text-sm font-medium">{user.fullName}</p>
           <p className="text-xs text-muted-foreground">

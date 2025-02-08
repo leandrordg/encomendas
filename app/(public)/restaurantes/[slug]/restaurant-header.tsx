@@ -19,7 +19,7 @@ export function RestaurantHeader({ restaurant, categories, products }: Props) {
         Restaurantes
       </p>
 
-      <div className="relative aspect-[4/1] bg-muted rounded-md overflow-clip shadow-sm">
+      <div className="relative aspect-[6/2] bg-muted rounded-md overflow-clip shadow-sm">
         <Image
           src={restaurant.imageUrl ?? "/images/placeholder.jpeg"}
           alt={restaurant.name}
