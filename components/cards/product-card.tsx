@@ -5,16 +5,30 @@ import { formatPrice, formatReviews } from "@/lib/utils";
 import { Product, Restaurant, Review } from "@prisma/client";
 import { StarIcon } from "lucide-react";
 
+import { ProductDropdown } from "@/components/dropdowns/product-dropdown";
+
 interface Props {
   product: Product;
   restaurant: Restaurant;
   reviews?: Review[];
+  type?: "default" | "manage" | "admin";
 }
 
-export function ProductCard({ product, restaurant, reviews }: Props) {
+export function ProductCard({
+  product,
+  restaurant,
+  reviews,
+  type = "default",
+}: Props) {
+  const path = {
+    default: `/restaurantes/${restaurant.slug}/produtos/${product.slug}`,
+    manage: `/gerenciar/restaurantes/${restaurant.slug}/produtos/${product.slug}`,
+    admin: `/admin/restaurantes/${restaurant.slug}/produtos/${product.slug}`,
+  }[type];
+
   return (
-    <Link href={`/restaurantes/${restaurant.slug}/produtos/${product.slug}`}>
-      <div className="flex flex-col hover:shadow-md transition-all rounded-md overflow-clip border">
+    <Link href={path}>
+      <div className="flex flex-col hover:shadow-md transition-all rounded-md overflow-clip border relative">
         <div className="relative w-full h-48">
           <Image
             src={product.imageUrl ?? "/images/placeholder.jpeg"}
@@ -40,6 +54,16 @@ export function ProductCard({ product, restaurant, reviews }: Props) {
             {formatPrice(product.price)}
           </p>
         </div>
+
+        {(type === "manage" || type === "admin") && (
+          <div className="absolute top-2 right-2">
+            <ProductDropdown
+              restaurant={restaurant}
+              product={product}
+              isAdmin={type === "admin"}
+            />
+          </div>
+        )}
       </div>
     </Link>
   );
