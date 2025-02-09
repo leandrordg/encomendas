@@ -16,7 +16,6 @@ import {
 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetClose,
@@ -34,7 +33,7 @@ export async function MobileMenuSheet() {
   return (
     <Sheet>
       <SheetTrigger className="md:hidden" asChild>
-        <Button size="icon" variant="ghost">
+        <Button size="icon" variant="outline">
           <MenuIcon />
           <span className="sr-only">Abrir menu</span>
         </Button>
@@ -57,7 +56,7 @@ export async function MobileMenuSheet() {
               Início
             </Link>
           </SheetClose>
-          <Separator />
+
           <SheetClose asChild>
             <Link
               href="/explorar"
@@ -67,7 +66,7 @@ export async function MobileMenuSheet() {
               Explorar
             </Link>
           </SheetClose>
-          <Separator />
+
           <SheetClose asChild>
             <Link
               href="/restaurantes"
@@ -77,7 +76,7 @@ export async function MobileMenuSheet() {
               Restaurantes
             </Link>
           </SheetClose>
-          <Separator />
+
           <SheetClose asChild>
             <Link
               href="/categorias"
@@ -87,7 +86,6 @@ export async function MobileMenuSheet() {
               Categorias
             </Link>
           </SheetClose>
-          <Separator />
         </div>
 
         {user && (
@@ -108,7 +106,7 @@ export async function MobileMenuSheet() {
                 Meu perfil
               </Link>
             </SheetClose>
-            <Separator />
+
             <SheetClose asChild>
               <Link
                 href="/perfil/preferencias"
@@ -118,7 +116,7 @@ export async function MobileMenuSheet() {
                 Preferências
               </Link>
             </SheetClose>
-            <Separator />
+
             <SheetClose asChild>
               <Link
                 href="/gerenciar"
@@ -128,7 +126,7 @@ export async function MobileMenuSheet() {
                 Meus restaurantes
               </Link>
             </SheetClose>
-            <Separator />
+
             <SheetClose asChild>
               <Link
                 href="/admin"

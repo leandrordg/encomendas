@@ -1,14 +1,13 @@
 import { getProductsByRestaurant } from "@/hooks/products";
-import { Category, Restaurant } from "@prisma/client";
+import { Restaurant } from "@prisma/client";
 
 import { ProductCard } from "@/components/cards/product-card";
 
 interface Props {
   restaurant: Restaurant;
-  categories?: Category[];
 }
 
-export async function RestaurantProductList({ restaurant, categories }: Props) {
+export async function RestaurantProductList({ restaurant }: Props) {
   const { latestProducts } = await getProductsByRestaurant(restaurant.slug!);
 
   return (
@@ -25,7 +24,6 @@ export async function RestaurantProductList({ restaurant, categories }: Props) {
                 key={product.id}
                 product={product}
                 restaurant={restaurant}
-                categories={categories}
                 reviews={product.reviews}
               />
             ))}

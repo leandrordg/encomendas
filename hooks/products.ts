@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { auth } from "@clerk/nextjs/server";
 
 export const getProducts = async () => {
   return await prisma.product.findMany({
@@ -37,7 +38,7 @@ export const getProductsByRestaurant = async (slug: string) => {
     },
   });
 
-  if (!hasRestaurant) return { latestProducts: [] };
+  if (!hasRestaurant) throw new Error("Restaurante não encontrado");
 
   const products = await prisma.product.findMany({
     where: {
@@ -55,6 +56,34 @@ export const getProductsByRestaurant = async (slug: string) => {
   });
 
   return {
+    restaurant: hasRestaurant,
     latestProducts: products,
+  };
+};
+
+export const getProductsByUserRestaurant = async (slug: string) => {
+  const { userId } = await auth();
+
+  if (!userId) throw new Error("Usuário não autenticado");
+
+  const hasRestaurant = await prisma.restaurant.findFirst({
+    where: {
+      slug,
+      ownerId: userId,
+    },
+    include: {
+      products: {
+        include: {
+          reviews: true,
+        },
+      },
+    },
+  });
+
+  if (!hasRestaurant) throw new Error("Restaurante não encontrado");
+
+  return {
+    restaurant: hasRestaurant,
+    products: hasRestaurant.products,
   };
 };

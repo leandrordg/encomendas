@@ -2,13 +2,12 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { formatPrice, formatReviews } from "@/lib/utils";
-import { Category, Product, Restaurant, Review } from "@prisma/client";
+import { Product, Restaurant, Review } from "@prisma/client";
 import { StarIcon } from "lucide-react";
 
 interface Props {
   product: Product;
   restaurant: Restaurant;
-  categories?: Category[];
   reviews?: Review[];
 }
 

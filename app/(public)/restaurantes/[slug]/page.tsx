@@ -27,7 +27,7 @@ export default async function IndividualRestaurant({ params }: Props) {
 
       <Separator orientation="horizontal" className="h-[2px]" />
 
-      <RestaurantProductList restaurant={restaurant} categories={categories} />
+      <RestaurantProductList restaurant={restaurant} />
     </main>
   );
 }

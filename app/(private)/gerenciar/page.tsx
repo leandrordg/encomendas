@@ -60,6 +60,18 @@ export default async function Manage() {
           </Link>
         </Button>
       </section>
+
+      <section className="max-w-5xl mx-auto p-4 space-y-8">
+        <div>
+          <h2 className="text-2xl md:text-3xl font-bold tracking-tighter text-balance">
+            Todos os pedidos
+          </h2>
+
+          <InfoBanner>
+            Você não possui pedidos para gerenciar no momento.
+          </InfoBanner>
+        </div>
+      </section>
     </main>
   );
 }
