@@ -20,12 +20,21 @@ export function CategoryCard({ type = "default", category }: Props) {
   return (
     <Link href={path}>
       <div className="relative w-full h-40 sm:max-h-48 md:max-h-52 group rounded-md overflow-clip">
-        <Image
-          src={category.imageUrl ?? "/images/placeholder.jpeg"}
-          alt={category.name}
-          className="w-full h-full object-cover bg-muted group-hover:scale-[1.01] transition-transform duration-300"
-          fill
-        />
+        {category.imageUrl ? (
+          <Image
+            src={category.imageUrl}
+            alt={category.name}
+            className="w-full h-full object-cover bg-muted group-hover:scale-[1.01] transition-transform duration-300"
+            fill
+          />
+        ) : (
+          <Image
+            src="/images/placeholder.jpeg"
+            alt={category.name}
+            className="w-full h-full object-cover bg-muted group-hover:scale-[1.01] transition-transform duration-300"
+            fill
+          />
+        )}
 
         <span className="absolute inset-0 p-4 flex text-white text-xl font-bold tracking-tight bg-gradient-to-r from-neutral-700 via-transparent to-transparent bg-opacity-30 transition-all">
           {category.name}

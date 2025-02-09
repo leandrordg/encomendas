@@ -20,12 +20,21 @@ export function RestaurantHeader({ restaurant, categories, products }: Props) {
       </p>
 
       <div className="relative aspect-[6/2] bg-muted rounded-md overflow-clip shadow-sm">
-        <Image
-          src={restaurant.imageUrl ?? "/images/placeholder.jpeg"}
-          alt={restaurant.name}
-          className="w-full h-full object-cover bg-muted"
-          fill
-        />
+        {restaurant.imageUrl ? (
+          <Image
+            src={restaurant.imageUrl}
+            alt={restaurant.name}
+            className="w-full h-full object-cover bg-muted"
+            fill
+          />
+        ) : (
+          <Image
+            src="/images/placeholder.jpeg"
+            alt={restaurant.name}
+            className="w-full h-full object-cover bg-muted"
+            fill
+          />
+        )}
       </div>
 
       <h1 className="text-4xl md:text-5xl font-bold tracking-tighter text-balance capitalize">

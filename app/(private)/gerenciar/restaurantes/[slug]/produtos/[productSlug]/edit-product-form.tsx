@@ -5,13 +5,13 @@ import { useRouter } from "next/navigation";
 
 import { UploadButton } from "@/lib/uploadthing";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Restaurant } from "@prisma/client";
-import { CirclePlusIcon } from "lucide-react";
+import { Product } from "@prisma/client";
+import { CheckIcon, TrashIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import { toast } from "sonner";
 import { z } from "zod";
-import { createProduct } from "./actions";
+import { updateProduct } from "./actions";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -24,13 +24,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 
 const formSchema = z.object({
@@ -46,90 +39,40 @@ const formSchema = z.object({
 });
 
 interface Props {
-  restaurants: Restaurant[];
+  product: Product;
 }
 
-export function NewProductForm({ restaurants }: Props) {
+export function EditProductForm({ product }: Props) {
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      restaurantId: "",
-      name: "",
-      slug: "",
-      description: "",
-      imageUrl: "",
-      price: "",
+      restaurantId: product.restaurantId,
+      name: product.name,
+      slug: product.slug,
+      description: product.description,
+      imageUrl: product.imageUrl ?? "/images/placeholder.jpeg",
+      price: product.price.toString(),
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const slug = slugify(values.name, { lower: true });
 
-    const create = await createProduct({ ...values, slug });
+    const update = await updateProduct({ ...values, slug });
 
-    if (!create) return toast.error("Erro ao criar restaurante");
+    if (!update) return toast.error("Erro ao atualizar o produto");
 
-    toast.success("Restaurante criado com sucesso");
+    toast.success("Produto atualizado com sucesso");
     return router.back();
   }
 
   const { isValid, isDirty, isSubmitting } = form.formState;
 
-  // disable form if there no restaurants or if no restaurant selected
-  const selectedRestaurant = !!form.watch("restaurantId");
-
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <FormField
-          control={form.control}
-          name="restaurantId"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Restaurante</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione o restaurante" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {restaurants.map((restaurant) => (
-                    <SelectItem key={restaurant.id} value={restaurant.id}>
-                      <div className="flex items-center gap-2">
-                        <div className="relative size-4 rounded-full overflow-clip">
-                          {restaurant.imageUrl ? (
-                            <Image
-                              src={restaurant.imageUrl}
-                              alt={restaurant.name}
-                              className="object-cover bg-muted"
-                              fill
-                            />
-                          ) : (
-                            <Image
-                              src="/images/placeholder.jpeg"
-                              alt={restaurant.name}
-                              className="object-cover bg-muted"
-                              fill
-                            />
-                          )}
-                        </div>
-                        {restaurant.name}
-                      </div>
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormDescription>
-                Escolha o restaurante que o produto pertence.
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
         <FormField
           control={form.control}
           name="name"
@@ -138,7 +81,7 @@ export function NewProductForm({ restaurants }: Props) {
               <FormLabel>Nome do produto</FormLabel>
               <FormControl>
                 <Input
-                  disabled={isSubmitting || !selectedRestaurant}
+                  disabled={isSubmitting}
                   placeholder="Digite o nome do produto"
                   {...field}
                 />
@@ -155,7 +98,7 @@ export function NewProductForm({ restaurants }: Props) {
               <FormLabel>Descrição do produto</FormLabel>
               <FormControl>
                 <Textarea
-                  disabled={isSubmitting || !selectedRestaurant}
+                  disabled={isSubmitting}
                   placeholder="Breve descrição do produto"
                   className="min-h-32"
                   {...field}
@@ -175,7 +118,7 @@ export function NewProductForm({ restaurants }: Props) {
               <FormControl>
                 <Input
                   type="text"
-                  disabled={isSubmitting || !selectedRestaurant}
+                  disabled={isSubmitting}
                   placeholder="Digite o preço (ex: 10 ou 10.99)"
                   {...field}
                 />
@@ -198,7 +141,7 @@ export function NewProductForm({ restaurants }: Props) {
                       alignItems: "start",
                     },
                   }}
-                  disabled={isSubmitting || !selectedRestaurant}
+                  disabled={isSubmitting}
                   endpoint="imageUploader"
                   onClientUploadComplete={(res) => {
                     form.setValue("imageUrl", res[0].url);
@@ -216,6 +159,16 @@ export function NewProductForm({ restaurants }: Props) {
                     className="rounded-md bg-muted object-cover"
                     fill
                   />
+                  <Button
+                    type="button"
+                    className="absolute top-2 right-2"
+                    onClick={() =>
+                      form.setValue("imageUrl", "", { shouldDirty: true })
+                    }
+                  >
+                    <TrashIcon />
+                    <span className="sr-only">Remover imagem</span>
+                  </Button>
                 </div>
               )}
               <FormDescription>Recomendado 800x600px (4:3)</FormDescription>
@@ -224,12 +177,9 @@ export function NewProductForm({ restaurants }: Props) {
           )}
         />
 
-        <Button
-          type="submit"
-          disabled={!isValid || !isDirty || isSubmitting || !selectedRestaurant}
-        >
-          <CirclePlusIcon />
-          Adicionar produto
+        <Button type="submit" disabled={!isValid || !isDirty || isSubmitting}>
+          <CheckIcon />
+          Salvar alterações
         </Button>
       </form>
     </Form>
