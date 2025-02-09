@@ -10,7 +10,7 @@ interface Props {
   name: string;
   slug: string;
   description: string;
-  imageUrl?: string | undefined;
+  imageUrl?: string;
 }
 
 export const updateCategory = async (data: Props) => {

@@ -35,7 +35,7 @@ const formSchema = z.object({
   price: z
     .string()
     .min(1, "Campo obrigatório")
-    .regex(/^\d+([,.]\d{1,2})?$/, "Preço inválido"),
+    .regex(/^\d+(\.\d{1,2})?$/, "Preço inválido"),
 });
 
 interface Props {
@@ -144,7 +144,9 @@ export function EditProductForm({ product }: Props) {
                   disabled={isSubmitting}
                   endpoint="imageUploader"
                   onClientUploadComplete={(res) => {
-                    form.setValue("imageUrl", res[0].url);
+                    form.setValue("imageUrl", res[0].url, {
+                      shouldDirty: true,
+                    });
                   }}
                   onUploadError={(error: Error) => {
                     console.error("Upload error: ", error);

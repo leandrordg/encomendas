@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { UploadButton } from "@/lib/uploadthing";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Restaurant } from "@prisma/client";
-import { CirclePlusIcon } from "lucide-react";
+import { CirclePlusIcon, TrashIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import slugify from "slugify";
 import { toast } from "sonner";
@@ -42,7 +42,7 @@ const formSchema = z.object({
   price: z
     .string()
     .min(1, "Campo obrigatório")
-    .regex(/^\d+([,.]\d{1,2})?$/, "Preço inválido"),
+    .regex(/^\d+(\.\d{1,2})?$/, "Preço inválido"),
 });
 
 interface Props {
@@ -201,7 +201,9 @@ export function NewProductForm({ restaurants }: Props) {
                   disabled={isSubmitting || !selectedRestaurant}
                   endpoint="imageUploader"
                   onClientUploadComplete={(res) => {
-                    form.setValue("imageUrl", res[0].url);
+                    form.setValue("imageUrl", res[0].url, {
+                      shouldDirty: true,
+                    });
                   }}
                   onUploadError={(error: Error) => {
                     console.error("Upload error: ", error);
@@ -216,6 +218,16 @@ export function NewProductForm({ restaurants }: Props) {
                     className="rounded-md bg-muted object-cover"
                     fill
                   />
+                  <Button
+                    type="button"
+                    className="absolute top-2 right-2"
+                    onClick={() =>
+                      form.setValue("imageUrl", "", { shouldDirty: true })
+                    }
+                  >
+                    <TrashIcon />
+                    <span className="sr-only">Remover imagem</span>
+                  </Button>
                 </div>
               )}
               <FormDescription>Recomendado 800x600px (4:3)</FormDescription>

@@ -141,6 +141,7 @@ export function NewCategoryForm() {
                     }
                   >
                     <TrashIcon />
+                    <span className="sr-only">Remover imagem</span>
                   </Button>
                 </div>
               )}

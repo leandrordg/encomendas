@@ -146,6 +146,7 @@ export function EditCategoryForm({ category }: Props) {
                     }
                   >
                     <TrashIcon />
+                    <span className="sr-only">Remover imagem</span>
                   </Button>
                 </div>
               )}

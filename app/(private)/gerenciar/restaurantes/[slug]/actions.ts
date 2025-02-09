@@ -10,7 +10,7 @@ interface UpdateRestaurantProps {
   name: string;
   slug: string;
   description: string;
-  imageUrl?: string | undefined;
+  imageUrl?: string;
 }
 
 export const updateRestaurant = async (data: UpdateRestaurantProps) => {
