@@ -28,7 +28,7 @@ const formSchema = z.object({
 
 interface Props {
   restaurant: Restaurant;
-  categories: Category[] | undefined;
+  categories?: Category[]
   allCategories: Category[];
 }
 

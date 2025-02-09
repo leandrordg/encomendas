@@ -1,15 +1,25 @@
 import { prisma } from "@/lib/prisma";
 
 export const getReviewsByRestaurant = async (slug: string) => {
-  return await prisma.review.findMany({
+  const restaurant = await prisma.restaurant.findUnique({
     where: {
-      restaurant: {
-        slug,
-      },
+      slug,
+    },
+  });
+
+  if (!restaurant) throw new Error("Restaurante não encontrado.");
+
+  const reviews = await prisma.review.findMany({
+    where: {
+      restaurantId: restaurant.id,
     },
     include: {
       customer: true,
-      restaurant: true,
     },
   });
+
+  return {
+    restaurant,
+    reviews,
+  };
 };

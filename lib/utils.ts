@@ -13,7 +13,7 @@ export function formatPrice(price: number) {
   });
 }
 
-export function formatAveragePrice(products: Product[] | undefined) {
+export function formatAveragePrice(products?: Product[]) {
   const price =
     products?.length &&
     products.reduce((acc, product) => acc + product.price, 0) / products.length;
@@ -23,7 +23,7 @@ export function formatAveragePrice(products: Product[] | undefined) {
   return "$".repeat(Math.ceil(price / 20));
 }
 
-export function formatReviews(reviews: Review[] | undefined) {
+export function formatReviews(reviews?: Review[]) {
   if (!reviews?.length) return "Sem avaliações";
 
   const averageRating =

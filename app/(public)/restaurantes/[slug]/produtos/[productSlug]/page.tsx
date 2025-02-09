@@ -71,7 +71,7 @@ export default async function IndividualProduct({ params }: Props) {
           {product.name}
         </h1>
 
-        <p className="text-muted-foreground leading-relaxed mt-6">
+        <p className="text-sm md:text-base text-muted-foreground leading-relaxed mt-6">
           {product.description}
         </p>
 
