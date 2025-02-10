@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { currentUser } from "@clerk/nextjs/server";
 
 interface CreateProductProps {
   restaurantId: string;
@@ -15,14 +15,14 @@ interface CreateProductProps {
 }
 
 export const createProduct = async (values: CreateProductProps) => {
-  const user = await currentUser();
+  const session = await auth();
 
-  if (!user) throw new Error("Usuário não encontrado.");
+  if (!session?.user) throw new Error("Usuário não encontrado.");
 
   const restaurantOwner = await prisma.restaurant.findFirst({
     where: {
       id: values.restaurantId,
-      ownerId: user.id,
+      ownerId: session.user.id,
     },
   });
 

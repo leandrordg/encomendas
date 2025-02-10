@@ -1,15 +1,18 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { SignedIn, SignedOut, SignInButton } from "@clerk/nextjs";
-import { LogInIcon } from "lucide-react";
+import { auth } from "@/auth";
 
+import { SignInDialog } from "@/components/dialog/sign-in-dialog";
 import { UserDropdown } from "@/components/dropdowns/user-dropdown";
 import { MobileMenuSheet } from "@/components/sheets/mobile-menu-sheet";
-import { Button } from "@/components/ui/button";
+import { LogInIcon } from "lucide-react";
+import { Button } from "./ui/button";
 
-export function Header() {
-  const isAdmin = true; // TODO: add verification for role on clerk and database for safety
+export async function Header() {
+  const session = await auth();
+
+  const isAdmin = true;
 
   return (
     <header className="border-b">
@@ -28,18 +31,16 @@ export function Header() {
         <div className="flex items-center gap-4 ml-auto">
           <MobileMenuSheet />
 
-          <SignedOut>
-            <SignInButton mode="modal">
-              <Button size="sm">
+          {session?.user ? (
+            <UserDropdown isAdmin={isAdmin} />
+          ) : (
+            <SignInDialog>
+              <Button variant="outline" size="sm">
                 <LogInIcon />
                 <span className="hidden md:block">Fazer login</span>
               </Button>
-            </SignInButton>
-          </SignedOut>
-
-          <SignedIn>
-            <UserDropdown isAdmin={isAdmin} />
-          </SignedIn>
+            </SignInDialog>
+          )}
         </div>
       </div>
     </header>

@@ -4,7 +4,7 @@ import "./globals.css";
 
 import { Header } from "@/components/header";
 import { Toaster } from "@/components/ui/sonner";
-import { ClerkProvider } from "@clerk/nextjs";
+import { SessionProvider } from "next-auth/react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider>
+    <SessionProvider>
       <html lang="pt-BR">
         <body className={`${inter.className} antialiased`}>
           <Toaster />
@@ -27,6 +27,6 @@ export default function RootLayout({
           {children}
         </body>
       </html>
-    </ClerkProvider>
+    </SessionProvider>
   );
 }

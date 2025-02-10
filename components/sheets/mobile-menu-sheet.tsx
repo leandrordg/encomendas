@@ -1,8 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { SignOutButton } from "@clerk/nextjs";
-import { currentUser } from "@clerk/nextjs/server";
+import { auth } from "@/auth";
 import {
   ChefHatIcon,
   HomeIcon,
@@ -15,6 +14,7 @@ import {
   TelescopeIcon,
 } from "lucide-react";
 
+import { SignOutDialog } from "@/components/dialog/sign-out-dialog";
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -28,12 +28,12 @@ import {
 } from "@/components/ui/sheet";
 
 export async function MobileMenuSheet() {
-  const user = await currentUser();
+  const session = await auth();
 
   return (
     <Sheet>
       <SheetTrigger className="md:hidden" asChild>
-        <Button size="icon" variant="outline">
+        <Button size="sm" variant="outline">
           <MenuIcon />
           <span className="sr-only">Abrir menu</span>
         </Button>
@@ -88,7 +88,7 @@ export async function MobileMenuSheet() {
           </SheetClose>
         </div>
 
-        {user && (
+        {session?.user && (
           <div className="grid gap-0.5 mt-auto">
             <SheetClose asChild>
               <Link
@@ -96,12 +96,29 @@ export async function MobileMenuSheet() {
                 className="flex items-center gap-2 p-2 rounded-md text-sm hover:bg-muted"
               >
                 <div className="relative size-4 rounded-full overflow-clip">
-                  <Image
-                    src={user.imageUrl}
-                    alt={user.fullName ?? "Imagem do perfil"}
-                    className="bg-muted object-cover"
-                    fill
-                  />
+                  {session.user.image ? (
+                    <Image
+                      src={session.user.image}
+                      alt={
+                        session.user.name ??
+                        session.user.email ??
+                        "Imagem do perfil"
+                      }
+                      className="bg-muted object-cover"
+                      fill
+                    />
+                  ) : (
+                    <Image
+                      src="/images/placeholder.jpeg"
+                      alt={
+                        session.user.name ??
+                        session.user.email ??
+                        "Imagem do perfil"
+                      }
+                      className="bg-muted object-cover"
+                      fill
+                    />
+                  )}
                 </div>
                 Meu perfil
               </Link>
@@ -139,16 +156,16 @@ export async function MobileMenuSheet() {
           </div>
         )}
 
-        <SheetFooter className={!user ? "mt-auto" : ""}>
-          {user ? (
-            <SignOutButton>
-              <SheetClose asChild>
+        <SheetFooter className={!session?.user ? "mt-auto" : ""}>
+          {session?.user ? (
+            <SheetClose asChild>
+              <SignOutDialog>
                 <Button>
                   <LogOutIcon />
                   Desconectar
                 </Button>
-              </SheetClose>
-            </SignOutButton>
+              </SignOutDialog>
+            </SheetClose>
           ) : (
             <div className="flex flex-col gap-2">
               <p className="font-medium tracking-tighter">Conecte-se</p>

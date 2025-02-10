@@ -1,8 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 
-import { SignOutButton } from "@clerk/nextjs";
-import { currentUser } from "@clerk/nextjs/server";
 import {
   LayoutDashboardIcon,
   LogOutIcon,
@@ -10,7 +10,9 @@ import {
   ShieldIcon,
   UserRoundIcon,
 } from "lucide-react";
+import { useSession } from "next-auth/react";
 
+import { SignOutDialog } from "@/components/dialog/sign-out-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,29 +21,38 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-export async function UserDropdown({ isAdmin }: { isAdmin: boolean }) {
-  const user = await currentUser();
+export function UserDropdown({ isAdmin }: { isAdmin: boolean }) {
+  const { data: session } = useSession();
 
-  if (!user) return null;
+  if (!session?.user) return null;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="size-8 relative rounded-full border overflow-clip">
-          <Image
-            src={user.imageUrl}
-            alt={user.fullName ?? user.id}
-            className="object-cover bg-muted"
-            fill
-          />
+          {session.user.image ? (
+            <Image
+              src={session.user.image}
+              alt={session.user.name ?? session.user.email ?? "Usuário"}
+              className="object-cover bg-muted"
+              fill
+            />
+          ) : (
+            <Image
+              src="/images/placeholder.jpeg"
+              alt={session.user.name ?? session.user.email ?? "Usuário"}
+              className="object-cover bg-muted"
+              fill
+            />
+          )}
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-48 md:min-w-64" align="end">
         <div className="px-2 py-1.5">
-          <p className="text-sm font-medium">{user.fullName}</p>
-          <p className="text-xs text-muted-foreground">
-            {user.primaryEmailAddress?.emailAddress}
-          </p>
+          {session.user.name && (
+            <p className="text-sm font-medium">{session.user.name}</p>
+          )}
+          <p className="text-xs text-muted-foreground">{session.user.email}</p>
         </div>
 
         <DropdownMenuSeparator />
@@ -83,12 +94,12 @@ export async function UserDropdown({ isAdmin }: { isAdmin: boolean }) {
           </>
         )}
 
-        <SignOutButton>
-          <DropdownMenuItem>
+        <SignOutDialog>
+          <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
             <LogOutIcon />
             Desconectar
           </DropdownMenuItem>
-        </SignOutButton>
+        </SignOutDialog>
       </DropdownMenuContent>
     </DropdownMenu>
   );

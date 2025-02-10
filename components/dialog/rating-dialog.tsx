@@ -46,7 +46,7 @@ export async function ReviewsDialog({ slug }: { slug: string }) {
                   {review.rating}
                   <StarIcon className="size-3 shrink-0" />
                   <Separator orientation="vertical" className="w-[1px] h-3" />
-                  {review.customer.firstName}
+                  {review.customer.name}
                 </div>
                 <p className="text-xs text-muted-foreground">
                   {review.comment}

@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { currentUser } from "@clerk/nextjs/server";
 
 interface Props {
   name: string;
@@ -13,40 +13,22 @@ interface Props {
 }
 
 export const createRestaurant = async (data: Props) => {
-  const user = await currentUser();
+  const session = await auth();
 
-  if (!user) throw new Error("Usuário não autenticado");
+  if (!session?.user) throw new Error("Usuário não autenticado");
 
-  const userExists = await prisma.user.findUnique({
-    where: {
-      userId: user.id,
-    },
-  });
-
-  if (!userExists) {
-    await prisma.user.create({
+  try {
+    const restaurant = await prisma.restaurant.create({
       data: {
-        userId: user.id,
-        firstName: user.firstName ?? "",
-        lastName: user.lastName,
-        email: user.primaryEmailAddress?.emailAddress ?? "",
-        imageUrl: user.imageUrl,
+        ...data,
+        ownerId: session.user.id!,
       },
     });
+
+    revalidatePath("/gerenciar");
+
+    return restaurant;
+  } catch {
+    throw new Error("Erro ao criar restaurante");
   }
-
-  const restaurant = await prisma.restaurant.create({
-    data: {
-      ...data,
-      owner: {
-        connect: {
-          userId: user.id,
-        },
-      },
-    },
-  });
-
-  revalidatePath("/gerenciar");
-
-  return restaurant;
 };

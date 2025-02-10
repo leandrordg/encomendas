@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 
+import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
-import { currentUser } from "@clerk/nextjs/server";
 
 interface Props {
   name: string;
@@ -13,9 +13,9 @@ interface Props {
 }
 
 export const createCategory = async (data: Props) => {
-  const user = await currentUser();
+  const session = await auth();
 
-  if (!user) throw new Error("Usuário não autenticado");
+  if (!session?.user) throw new Error("Usuário não autenticado");
 
   // TODO: verify if user is admin
 
