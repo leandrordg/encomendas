@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { SignOutButton, useUser } from "@clerk/nextjs";
 import {
   LayoutDashboardIcon,
   LogOutIcon,
@@ -10,9 +11,7 @@ import {
   ShieldIcon,
   UserRoundIcon,
 } from "lucide-react";
-import { useSession } from "next-auth/react";
 
-import { SignOutDialog } from "@/components/dialog/sign-out-dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,25 +21,33 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export function UserDropdown({ isAdmin }: { isAdmin: boolean }) {
-  const { data: session } = useSession();
+  const { user } = useUser();
 
-  if (!session?.user) return null;
+  if (!user) return null;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <button className="size-8 relative rounded-full border overflow-clip">
-          {session.user.image ? (
+          {user.imageUrl ? (
             <Image
-              src={session.user.image}
-              alt={session.user.name ?? session.user.email ?? "Usuário"}
+              src={user.imageUrl}
+              alt={
+                user.fullName ??
+                user.primaryEmailAddress?.emailAddress ??
+                "Usuário"
+              }
               className="object-cover bg-muted"
               fill
             />
           ) : (
             <Image
               src="/images/placeholder.jpeg"
-              alt={session.user.name ?? session.user.email ?? "Usuário"}
+              alt={
+                user.fullName ??
+                user.primaryEmailAddress?.emailAddress ??
+                "Usuário"
+              }
               className="object-cover bg-muted"
               fill
             />
@@ -49,10 +56,12 @@ export function UserDropdown({ isAdmin }: { isAdmin: boolean }) {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="min-w-48 md:min-w-64" align="end">
         <div className="px-2 py-1.5">
-          {session.user.name && (
-            <p className="text-sm font-medium">{session.user.name}</p>
+          {user.fullName && (
+            <p className="text-sm font-medium">{user.fullName}</p>
           )}
-          <p className="text-xs text-muted-foreground">{session.user.email}</p>
+          <p className="text-xs text-muted-foreground">
+            {user.primaryEmailAddress?.emailAddress}
+          </p>
         </div>
 
         <DropdownMenuSeparator />
@@ -94,12 +103,12 @@ export function UserDropdown({ isAdmin }: { isAdmin: boolean }) {
           </>
         )}
 
-        <SignOutDialog>
+        <SignOutButton>
           <DropdownMenuItem onSelect={(e) => e.preventDefault()}>
             <LogOutIcon />
             Desconectar
           </DropdownMenuItem>
-        </SignOutDialog>
+        </SignOutButton>
       </DropdownMenuContent>
     </DropdownMenu>
   );

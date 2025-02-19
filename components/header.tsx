@@ -1,16 +1,16 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { auth } from "@/auth";
+import { SignInButton } from "@clerk/nextjs";
+import { auth } from "@clerk/nextjs/server";
+import { LogInIcon } from "lucide-react";
 
-import { SignInDialog } from "@/components/dialog/sign-in-dialog";
 import { UserDropdown } from "@/components/dropdowns/user-dropdown";
 import { MobileMenuSheet } from "@/components/sheets/mobile-menu-sheet";
-import { LogInIcon } from "lucide-react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 
 export async function Header() {
-  const session = await auth();
+  const { userId } = await auth();
 
   const isAdmin = true;
 
@@ -31,15 +31,15 @@ export async function Header() {
         <div className="flex items-center gap-4 ml-auto">
           <MobileMenuSheet />
 
-          {session?.user ? (
+          {userId ? (
             <UserDropdown isAdmin={isAdmin} />
           ) : (
-            <SignInDialog>
+            <SignInButton mode="modal">
               <Button variant="outline" size="sm">
                 <LogInIcon />
                 <span className="hidden md:block">Fazer login</span>
               </Button>
-            </SignInDialog>
+            </SignInButton>
           )}
         </div>
       </div>

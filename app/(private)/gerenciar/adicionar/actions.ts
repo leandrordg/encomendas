@@ -2,7 +2,7 @@
 
 import { revalidatePath } from "next/cache";
 
-import { auth } from "@/auth";
+import { createOrReturnUser } from "@/hooks/users";
 import { prisma } from "@/lib/prisma";
 
 interface Props {
@@ -13,15 +13,15 @@ interface Props {
 }
 
 export const createRestaurant = async (data: Props) => {
-  const session = await auth();
+  const user = await createOrReturnUser();
 
-  if (!session?.user) throw new Error("Usuário não autenticado");
+  if (!user) throw new Error("Usuário não encontrado");
 
   try {
     const restaurant = await prisma.restaurant.create({
       data: {
         ...data,
-        ownerId: session.user.id!,
+        ownerId: user.userId,
       },
     });
 

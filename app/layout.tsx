@@ -4,7 +4,8 @@ import "./globals.css";
 
 import { Header } from "@/components/header";
 import { Toaster } from "@/components/ui/sonner";
-import { SessionProvider } from "next-auth/react";
+import { ClerkProvider } from "@clerk/nextjs";
+import NextTopLoader from "nextjs-toploader";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -19,14 +20,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <SessionProvider>
+    <ClerkProvider>
       <html lang="pt-BR">
         <body className={`${inter.className} antialiased`}>
+          <NextTopLoader color="#b81414" showSpinner={false} />
           <Toaster />
           <Header />
           {children}
         </body>
       </html>
-    </SessionProvider>
+    </ClerkProvider>
   );
 }

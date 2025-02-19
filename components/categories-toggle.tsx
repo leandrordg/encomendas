@@ -47,6 +47,8 @@ export function CategoriesToggle({
     [values, onChange]
   );
 
+  console.log(filteredCategories);
+
   return (
     <div className="flex flex-col gap-2">
       <Input
@@ -56,7 +58,7 @@ export function CategoriesToggle({
         value={search}
         onChange={(e) => setSearch(e.target.value)}
       />
-      {filteredCategories.length > 0 ? (
+      {filteredCategories.length > 0 && (
         <div className="flex items-center gap-2 flex-wrap">
           {filteredCategories.map((category) => (
             <button
@@ -73,10 +75,6 @@ export function CategoriesToggle({
             </button>
           ))}
         </div>
-      ) : (
-        <p className="text-xs text-muted-foreground">
-          Nenhuma categoria encontrada para: {debouncedSearch}.
-        </p>
       )}
     </div>
   );

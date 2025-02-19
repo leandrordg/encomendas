@@ -18,7 +18,7 @@ model Restaurant {
   updatedAt   DateTime @updatedAt
 
   ownerId      String
-  owner        User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  owner        User          @relation(fields: [ownerId], references: [userId], onDelete: Cascade)
   phoneNumbers PhoneNumber[]
   addresses    Address[]
   categories   Category[]
@@ -47,7 +47,7 @@ model PhoneNumber {
   updatedAt DateTime @updatedAt
 
   customerId String?
-  customer   User?   @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customer   User?   @relation(fields: [customerId], references: [userId], onDelete: Cascade)
 
   restaurantId String?
   restaurant   Restaurant? @relation(fields: [restaurantId], references: [id], onDelete: Cascade)
@@ -85,6 +85,7 @@ model Product {
 
 model User {
   id            String    @id @default(cuid())
+  userId        String    @unique
   name          String?
   email         String    @unique
   emailVerified DateTime?
@@ -92,49 +93,9 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
-  accounts     Account[]
-  sessions     Session[]
   restaurants  Restaurant[]
   reviews      Review[]
   phoneNumbers PhoneNumber[]
-}
-
-model Account {
-  type              String
-  provider          String
-  providerAccountId String
-  refresh_token     String?
-  access_token      String?
-  expires_at        Int?
-  token_type        String?
-  scope             String?
-  id_token          String?
-  session_state     String?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@id([provider, providerAccountId])
-}
-
-model Session {
-  sessionToken String   @unique
-  expires      DateTime
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
-
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-}
-
-model VerificationToken {
-  identifier String
-  token      String
-  expires    DateTime
-
-  @@id([identifier, token])
 }
 
 model Review {
@@ -145,7 +106,7 @@ model Review {
   updatedAt DateTime @updatedAt
 
   customerId String
-  customer   User   @relation(fields: [customerId], references: [id], onDelete: Cascade)
+  customer   User   @relation(fields: [customerId], references: [userId], onDelete: Cascade)
 
   productId String?
   product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)

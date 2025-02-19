@@ -1,5 +1,5 @@
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@clerk/nextjs/server";
 
 export const getProducts = async () => {
   return await prisma.product.findMany({
@@ -62,14 +62,14 @@ export const getProductsByRestaurant = async (slug: string) => {
 };
 
 export const getProductsByUserRestaurant = async (slug: string) => {
-  const session = await auth();
+  const { userId } = await auth();
 
-  if (!session?.user) throw new Error("Usuário não autenticado");
+  if (!userId) throw new Error("Usuário não autenticado");
 
   const hasRestaurant = await prisma.restaurant.findFirst({
     where: {
       slug,
-      ownerId: session.user.id,
+      ownerId: userId,
     },
     include: {
       products: {
@@ -92,14 +92,14 @@ export const getProductByUserRestaurant = async (
   slug: string,
   productSlug: string
 ) => {
-  const session = await auth();
+  const { userId } = await auth();
 
-  if (!session?.user) throw new Error("Usuário não autenticado");
+  if (!userId) throw new Error("Usuário não autenticado");
 
   const hasRestaurant = await prisma.restaurant.findFirst({
     where: {
       slug,
-      ownerId: session.user.id,
+      ownerId: userId,
     },
     include: {
       products: {

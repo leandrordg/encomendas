@@ -2,8 +2,8 @@
 
 import { revalidatePath } from "next/cache";
 
-import { auth } from "@/auth";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@clerk/nextjs/server";
 
 interface UpdateProductProps {
   restaurantId: string;
@@ -15,14 +15,14 @@ interface UpdateProductProps {
 }
 
 export const updateProduct = async (values: UpdateProductProps) => {
-  const session = await auth();
+  const { userId } = await auth();
 
-  if (!session?.user) throw new Error("Usuário não autenticado");
+  if (!userId) throw new Error("Usuário não autenticado");
 
   const restaurantOwner = await prisma.restaurant.findFirst({
     where: {
       id: values.restaurantId,
-      ownerId: session.user.id,
+      ownerId: userId,
     },
   });
 
